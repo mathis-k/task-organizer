@@ -10,8 +10,33 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@pinia/nuxt": "^0.5.5",
+    "@radix-ui/react-primitive": "^2.0.0",
+    "@sidebase/nuxt-auth": "^0.8.2",
+    "@vee-validate/zod": "^4.13.2",
+    "@vueuse/core": "^11.1.0",
+    "bcrypt": "^5.1.1",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "h3": "^1.13.0",
+    "lucide-vue-next": "^0.452.0",
+    "mongoose": "^8.7.1",
+    "next-auth": "~4.21.1",
     "nuxt": "^3.13.0",
+    "radix-vue": "^1.9.7",
+    "shadcn-nuxt": "^0.10.4",
+    "tailwind-merge": "^2.5.3",
+    "tailwindcss-animate": "^1.0.7",
+    "typeface-jetbrains-mono": "^2.0.1",
+    "vee-validate": "^4.13.2",
     "vue": "latest",
-    "vue-router": "latest"
+    "vue-router": "latest",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "autoprefixer": "^10.4.20",
+    "tailwindcss": "^3.4.13",
+    "typescript": "^5.6.3"
   }
 }

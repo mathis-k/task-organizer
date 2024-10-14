@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Hintergrundfarben */
+    --background: #0d1117; /* Dark Mode Hintergrund */
+    --foreground: #c9d1d9; /* Dark Mode Text */
+
+    /* Primärfarben */
+    --primary: #2E81F4; /* GitHub Blue */
+    --primary-foreground: #ffffff; /* Text auf Primärfarbe */
+
+    /* Sekundärfarben */
+    --secondary: #2BB673; /* GitHub Green */
+    --secondary-foreground: #ffffff; /* Text auf Sekundärfarbe */
+
+    /* Destructive (Rot) */
+    --destructive: #d73a49; /* GitHub Red */
+    --destructive-foreground: #ffffff; /* Text auf Destructive */
+
+    /* Gedämpfte Farben */
+    --muted: #a0a0a0; /* GitHub Muted */
+    --muted-foreground: #d0d0d0; /* Text auf Muted */
+
+    /* Akzentfarben */
+    --accent: #ffa500; /* GitHub Orange */
+    --accent-foreground: #ffffff; /* Text auf Akzentfarbe */
+
+    /* Popover */
+    --popover: #2A2A2A; /* GitHub Popover Hintergrund */
+    --popover-foreground: #EAEAEA; /* Popover Text */
+
+    /* Karten */
+    --card: #2A2A2A; /* GitHub Karten Hintergrund */
+    --card-foreground: #EAEAEA; /* Karten Text */
+
+    /* Border Farben */
+    --border: #30363d; /* GitHub Border */
+
+    /* Eingabefeld */
+    --input: #161b22; /* GitHub Eingabefeld Hintergrund */
+
+    /* Ring Farbe */
+    --ring: #2f363d; /* GitHub Ring Farbe */
+
+    /* Abrundung */
+    --radius: 0.5rem; /* 8px */
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+}
+
+@layer components {
+  /* Komponenten */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground border border-primary hover:bg-primary;
+  }
+
+  .btn-success {
+    @apply bg-secondary text-secondary-foreground border border-secondary hover:bg-secondary;
+  }
+
+  .btn-danger {
+    @apply bg-destructive text-destructive-foreground border border-destructive hover:bg-destructive;
+  }
+
+  .btn-warning {
+    @apply bg-accent text-accent-foreground border border-accent hover:bg-accent;
+  }
+
+  .input {
+    @apply bg-card text-foreground border border-border p-2 rounded;
+  }
+
+  .input:focus {
+    @apply ring-2 ring-primary;
+  }
+
+  /* Beispiel für Karten und Popover */
+  .card {
+    @apply bg-card text-card-foreground border border-border p-4 rounded;
+  }
+
+  .popover {
+    @apply bg-popover text-popover-foreground border border-border p-4 rounded shadow-lg;
+  }
+}
