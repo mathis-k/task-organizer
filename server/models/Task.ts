@@ -1,4 +1,4 @@
-import {Schema, model, ObjectId} from "mongoose";
+import {Schema, model, ObjectId, Document} from "mongoose";
 
 export interface TaskDocument extends Document {
     _id: ObjectId;
