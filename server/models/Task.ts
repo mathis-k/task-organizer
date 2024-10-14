@@ -5,7 +5,7 @@ export interface TaskDocument extends Document {
     title: string;
     description: string;
     status: "Backlog" | "Working On" | "Done";
-    priority: ["Low", 1] | ["Medium", 2] | ["High", 3];
+    priority: "Low" | "Medium" | "High";
     course: string;
     link: string;
     dueDate: Date;
@@ -28,9 +28,9 @@ const taskSchema = new Schema(
             default: "Backlog",
         },
         priority: {
-            type: [String, Number],
-            enum: [["Low", 1], ["Medium", 2], ["High", 3]],
-            default: ["Medium", 2],
+            type: String,
+            enum: ["Low", "Medium", "High"],
+            default: "Medium",
         },
         course: {
             type: String,
