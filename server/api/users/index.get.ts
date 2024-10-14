@@ -1,4 +1,4 @@
-import { User } from "server/models/User";
+import { User } from "~/server/models/User";
 import routeProtection from "~/server/routeProtection";
 
 export default defineEventHandler(async (event) => {
