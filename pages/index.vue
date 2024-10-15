@@ -6,6 +6,7 @@ definePageMeta({
 </script>
 
 <template>
+  <CreateTask />
 </template>
 
 <style scoped>

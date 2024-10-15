@@ -18,6 +18,8 @@ export const useTasksStore = defineStore("tasks", () => {
     }
 
     async function create(task: TaskDocument) {
+        task.createdAt = new Date();
+        task.updatedAt = new Date();
         const response: TaskDocument = await $fetch("/api/tasks", {
             method: "POST",
             body: task,
@@ -29,6 +31,7 @@ export const useTasksStore = defineStore("tasks", () => {
     }
 
     async function update(task: TaskDocument) {
+        task.updatedAt = new Date();
         const response: TaskDocument = await $fetch(`/api/tasks`, {
             method: "PUT",
             body: task,

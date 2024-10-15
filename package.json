@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@internationalized/date": "^3.5.6",
     "@pinia/nuxt": "^0.5.5",
     "@radix-ui/react-primitive": "^2.0.0",
     "@sidebase/nuxt-auth": "^0.8.2",
