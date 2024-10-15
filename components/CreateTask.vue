@@ -3,13 +3,27 @@ import { Input } from '@/components/ui/input'
 import { useToast } from "~/components/ui/toast";
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
+import type {TaskDocument} from "~/server/models/Task";
 
 const { toast } = useToast();
 const taskStore = useTasksStore()
 
+const taskData = ref ({
+  title: '',
+  description: '',
+  status: 'Backlog',
+  priority: 'Medium',
+  course: '',
+  link: '',
+  dueDate: null,
+})
+
 const formSchema = toTypedSchema(z.object({
   title: z.string(),
   description: z.string().optional(),
+  status: z.enum(["Backlog", "Working On", "Done"], {
+    errorMap: () => ({ message: "Status must be Backlog, Working On, or Done" }),
+  }),
   priority: z.enum(["Low", "Medium", "High"], {
     errorMap: () => ({ message: "Priority must be Low, Medium, or High" }),
   }),
@@ -21,12 +35,11 @@ const formSchema = toTypedSchema(z.object({
 }))
 
 async function onSubmit(values: any) {
-  console.log(values)
   try {
-    if (values.dueDate) {
-      values.dueDate = new Date(values.dueDate);
+    if (taskData.value.dueDate) {
+      taskData.value.dueDate = new Date(taskData.value.dueDate);
     }
-    const createdTask = await taskStore.create(values)
+    const createdTask = await taskStore.create(taskData.value as TaskDocument);
     toast({
       title: 'Task created successfully!',
       description: createdTask.title,
@@ -52,12 +65,12 @@ async function onSubmit(values: any) {
       </DialogTrigger>
       <DialogContent class="sm:max-w-[600px]">
 
-        <form @submit.prevent="submitForm">
+        <form @submit.prevent="onSubmit">
           <FormField v-slot="{ componentField }" name="title">
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="Task Title" v-bind="componentField" />
+                <Input type="text" placeholder="Task Title" v-bind="componentField" v-model="taskData.title" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -67,7 +80,34 @@ async function onSubmit(values: any) {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="Task Description" v-bind="componentField" />
+                <Input type="text" placeholder="Task Description" v-bind="componentField" v-model="taskData.description" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          </FormField>
+
+          <FormField v-slot="{ componentField }" name="status">
+            <FormItem>
+              <FormLabel>Status</FormLabel>
+              <FormControl>
+                <Select v-bind="componentField" v-model="taskData.status">
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select a status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectItem value="Backlog">
+                        Backlog
+                      </SelectItem>
+                      <SelectItem value="Working On">
+                        Working On
+                      </SelectItem>
+                      <SelectItem value="Done">
+                        Done
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -77,7 +117,7 @@ async function onSubmit(values: any) {
             <FormItem>
               <FormLabel>Priority</FormLabel>
               <FormControl>
-                <Select v-bind="componentField">
+                <Select v-bind="componentField" v-model="taskData.priority">
                   <SelectTrigger>
                     <SelectValue placeholder="Select a priority" />
                   </SelectTrigger>
@@ -104,7 +144,7 @@ async function onSubmit(values: any) {
             <FormItem>
               <FormLabel>Course</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="Course Name" v-bind="componentField" />
+                <Input type="text" placeholder="Course Name" v-bind="componentField" v-model="taskData.course" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -114,7 +154,7 @@ async function onSubmit(values: any) {
             <FormItem>
               <FormLabel>Link</FormLabel>
               <FormControl>
-                <Input type="url" placeholder="https://example.com" v-bind="componentField" />
+                <Input type="url" placeholder="https://example.com" v-bind="componentField" v-model="taskData.link" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -124,7 +164,7 @@ async function onSubmit(values: any) {
             <FormItem>
               <FormLabel>Due Date</FormLabel>
               <FormControl>
-                <Input type="date" v-bind="componentField" />
+                <Input type="date" v-bind="componentField" v-model="taskData.dueDate" />
               </FormControl>
               <FormMessage />
             </FormItem>
