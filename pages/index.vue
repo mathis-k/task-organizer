@@ -11,9 +11,6 @@ await useAsyncData("tasks", () => tasks.fetch().then(() => true));
 </script>
 
 <template>
-  <div v-for="task in tasks.tasks" class="tasks-container">
-    <TaskCard :task="task" />
-  </div>
 </template>
 
 <style scoped>
