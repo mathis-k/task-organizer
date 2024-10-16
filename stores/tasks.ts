@@ -3,8 +3,6 @@ import { defineStore } from "pinia";
 import type { TaskDocument } from "~/server/models/Task";
 
 export const useTasksStore = defineStore("tasks", () => {
-  const { data } = useAuth();
-  const user = (data.value?.user as any)._id;
   const tasks = ref<TaskDocument[]>([]);
 
   async function fetch() {
@@ -17,6 +15,16 @@ export const useTasksStore = defineStore("tasks", () => {
     }
   }
 
+  async function getTask(id: ObjectId) {
+    const response: TaskDocument = await $fetch(`/api/tasks/${id}`, {
+      method: "GET",
+    });
+
+    if (response) {
+      return response;
+    }
+  }
+
   async function create(task: TaskDocument) {
     task.createdAt = new Date();
     task.updatedAt = new Date();
@@ -26,6 +34,7 @@ export const useTasksStore = defineStore("tasks", () => {
     });
 
     if (response) {
+      tasks.value.push(response);
       return response;
     }
   }
@@ -38,6 +47,8 @@ export const useTasksStore = defineStore("tasks", () => {
     });
 
     if (response) {
+      const index = tasks.value.findIndex((t) => t._id === task._id);
+      tasks.value[index] = response;
       return response;
     }
   }
@@ -48,14 +59,25 @@ export const useTasksStore = defineStore("tasks", () => {
     });
 
     if (response) {
+      const index = tasks.value.findIndex((t) => t._id === id);
+      tasks.value.splice(index, 1);
       return response;
     }
   }
 
-  function updateTaskStatus(taskId, newStatus) {
-    const task = tasks.find((t) => t.id === taskId);
+  async function updateTaskStatus(taskId, newStatus) {
+    const task = tasks.value.find((task) => task._id === taskId);
     if (task) {
       task.status = newStatus;
+      const response: TaskDocument = await $fetch(`/api/tasks`, {
+        method: "PUT",
+        body: task,
+      });
+      if (response) {
+        const index = tasks.value.findIndex((t) => t._id === taskId);
+        tasks.value[index] = response;
+        return response;
+      }
     }
   }
 
@@ -64,9 +86,11 @@ export const useTasksStore = defineStore("tasks", () => {
   return {
     tasks,
     fetch,
+    getTask,
     get,
     create,
     update,
+
     remove,
     updateTaskStatus,
   };
