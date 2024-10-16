@@ -25,6 +25,8 @@ async function logout() {
         </div>
 
         <div class="flex items-center space-x-6">
+          <CreateTask />
+
           <Button class="relative">
             <Bell class="w-6 h-6 text-foreground" />
             <span class="absolute top-0 right-0 inline-block w-2.5 h-2.5 bg-destructive rounded-full"></span>

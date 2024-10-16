@@ -1,57 +1,62 @@
 <script setup lang="ts">
-import { useTasksStore } from "~/stores/tasks";
-import type { TaskDocument } from "~/server/models/Task";
+import { useTasksStore } from '~/stores/tasks';
+import type { TaskDocument } from '~/server/models/Task';
+import { Trash2  } from 'lucide-vue-next';
+import { Badge } from "~/components/ui/badge";
 
 const props = defineProps<{
   task: TaskDocument;
-  onStatusChange: (task: TaskDocument, newStatus: string) => void;
 }>();
 
 const tasksStore = useTasksStore();
 
-// Drag & Drop Handlers
-function handleDragStart(event: DragEvent) {
-  event.dataTransfer?.setData("text/plain", props.task._id.toString());
-}
-
-function handleDrop(event: DragEvent) {
-  const taskId = event.dataTransfer?.getData("text/plain");
-  const newStatus = props.task.status; // Hier müsstest du den neuen Status basierend auf der Drop-Position bestimmen
-  if (taskId) {
-    tasksStore.update({ ...props.task, status: newStatus });
-    props.onStatusChange(props.task, newStatus);
-  }
-}
-
-function openEditModal() {
-  // Hier kannst du den Code zum Öffnen des Edit-Modals hinzufügen
-}
-
 async function removeTask() {
   await tasksStore.remove(props.task._id);
+}
+
+function priorityColor(priority: string) {
+  switch (priority) {
+    case 'High':
+      return 'bg-red-500 text-white';
+    case 'Medium':
+      return 'bg-yellow-400 text-black';
+    case 'Low':
+      return 'bg-green-500 text-white';
+    default:
+      return 'bg-gray-400 text-white';
+  }
 }
 </script>
 
 <template>
-  <div
-      class="task-card"
-      draggable="true"
-      @dragstart="handleDragStart"
-      @dragover.prevent
-      @drop="handleDrop"
-  >
-    <h3 class="task-title">{{ task.title }}</h3>
-    <p class="task-description">{{ task.description }}</p>
-    <div class="task-details">
-      <span class="task-priority">Priority: {{ task.priority }}</span>
-      <span class="task-due-date">Due: {{ formatDueDate(task.dueDate) }}</span>
-    </div>
-    <div class="task-actions">
-      <button @click="openEditModal">Edit</button>
-      <button @click="removeTask">Delete</button>
-    </div>
-  </div>
+  <Card class="bg-slate-800 text-white">
+    <CardHeader class="flex justify-between items-center">
+      <div>
+        <CardTitle>{{ task.title }}</CardTitle>
+        <CardDescription>{{ task.description || 'No description' }}</CardDescription>
+      </div>
+      <Button variant="destructive" size="icon" @click="removeTask">
+        <Trash2  class="h-5 w-5" />
+      </Button>
+    </CardHeader>
+
+    <CardContent>
+      <div class="flex justify-between items-center">
+        <Badge :class="priorityColor(task.priority)">
+          {{ task.priority }}
+        </Badge>
+        <span>{{ task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No due date' }}</span>
+      </div>
+    </CardContent>
+
+    <CardFooter>
+      <Button variant="default" size="sm">
+        View Details
+      </Button>
+    </CardFooter>
+  </Card>
 </template>
+
 
 <style scoped>
 .task-card {

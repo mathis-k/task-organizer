@@ -4,9 +4,10 @@ import { useToast } from "~/components/ui/toast";
 import { toTypedSchema } from '@vee-validate/zod'
 import * as z from 'zod'
 import type {TaskDocument} from "~/server/models/Task";
+import {Loader2} from "lucide-vue-next";
 
 const { toast } = useToast();
-const taskStore = useTasksStore()
+const taskStore = useTasksStore();
 
 const taskData = ref ({
   title: '',
@@ -16,7 +17,7 @@ const taskData = ref ({
   course: '',
   link: '',
   dueDate: null,
-})
+});
 
 const formSchema = toTypedSchema(z.object({
   title: z.string(),
@@ -32,9 +33,22 @@ const formSchema = toTypedSchema(z.object({
   dueDate: z.preprocess((val) => {
     return typeof val === 'string' ? new Date(val) : val;
   }, z.date().optional())
-}))
+}));
 
-async function onSubmit(values: any) {
+const isSubmitting = ref(false);
+const isFormValid = computed(() => {
+  return (
+      taskData.value.title.trim() !== '' &&           // Title must not be empty
+      ["Backlog", "Working On", "Done"].includes(taskData.value.status) &&  // Status must be valid
+      ["Low", "Medium", "High"].includes(taskData.value.priority) &&        // Priority must be valid
+      taskData.value.course.trim() !== '' &&          // Course must not be empty
+      (!taskData.value.link || /^https?:\/\/[^\s$.?#].[^\s]*$/i.test(taskData.value.link)) && // Link must be valid URL or empty
+      (!taskData.value.dueDate || true) // Due date must be a valid date or empty
+  );
+});
+
+async function submit() {
+  isSubmitting.value = true;
   try {
     if (taskData.value.dueDate) {
       taskData.value.dueDate = new Date(taskData.value.dueDate);
@@ -51,12 +65,23 @@ async function onSubmit(values: any) {
       description: error.message,
       variant: 'destructive',
     });
+  } finally {
+    taskData.value = {
+      title: '',
+      description: '',
+      status: 'Backlog',
+      priority: 'Medium',
+      course: '',
+      link: '',
+      dueDate: null,
+    };
+    isSubmitting.value = false;
   }
 }
 </script>
 
 <template>
-  <Form v-slot="{ submitForm }" as="" :validation-schema="formSchema" @submit.prevent="onSubmit">
+  <Form>
     <Dialog>
       <DialogTrigger as-child>
         <Button>
@@ -65,7 +90,7 @@ async function onSubmit(values: any) {
       </DialogTrigger>
       <DialogContent class="sm:max-w-[600px]">
 
-        <form @submit.prevent="onSubmit">
+        <form @submit.prevent="submit">
           <FormField v-slot="{ componentField }" name="title">
             <FormItem>
               <FormLabel>Title</FormLabel>
@@ -90,7 +115,7 @@ async function onSubmit(values: any) {
             <FormItem>
               <FormLabel>Status</FormLabel>
               <FormControl>
-                <Select v-bind="componentField" v-model="taskData.status">
+                <Select v-bind="componentField" v-model="taskData.status" >
                   <SelectTrigger>
                     <SelectValue placeholder="Select a status" />
                   </SelectTrigger>
@@ -117,7 +142,7 @@ async function onSubmit(values: any) {
             <FormItem>
               <FormLabel>Priority</FormLabel>
               <FormControl>
-                <Select v-bind="componentField" v-model="taskData.priority">
+                <Select v-bind="componentField" v-model="taskData.priority" >
                   <SelectTrigger>
                     <SelectValue placeholder="Select a priority" />
                   </SelectTrigger>
@@ -173,8 +198,12 @@ async function onSubmit(values: any) {
           <div class="mb-6"></div>
 
           <DialogFooter>
-            <Button type="submit">
-              Create
+            <Button type="submit" :disabled="isSubmitting || !isFormValid" @click.prevent="submit">
+              <Loader2
+                  v-if="isSubmitting"
+                  class="w-4 h-4 mr-2 animate-spin"
+              />
+              <span v-else>Create</span>
             </Button>
           </DialogFooter>
         </form>
