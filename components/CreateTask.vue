@@ -1,49 +1,36 @@
 <script setup lang="ts">
-import { Input } from '@/components/ui/input'
+import { Input } from "@/components/ui/input";
 import { useToast } from "~/components/ui/toast";
-import { toTypedSchema } from '@vee-validate/zod'
-import * as z from 'zod'
-import type {TaskDocument} from "~/server/models/Task";
-import {Loader2} from "lucide-vue-next";
+import { toTypedSchema } from "@vee-validate/zod";
+import * as z from "zod";
+import type { TaskDocument } from "~/server/models/Task";
+import { Loader2 } from "lucide-vue-next";
 
 const { toast } = useToast();
 const taskStore = useTasksStore();
 
-const taskData = ref ({
-  title: '',
-  description: '',
-  status: 'Backlog',
-  priority: 'Medium',
-  course: '',
-  link: '',
+const dialogOpen = ref(false);
+
+const taskData = ref({
+  title: "",
+  description: "",
+  status: "Backlog",
+  priority: "Medium",
+  course: "",
+  link: "",
   dueDate: null,
 });
-
-const formSchema = toTypedSchema(z.object({
-  title: z.string(),
-  description: z.string().optional(),
-  status: z.enum(["Backlog", "Working On", "Done"], {
-    errorMap: () => ({ message: "Status must be Backlog, Working On, or Done" }),
-  }),
-  priority: z.enum(["Low", "Medium", "High"], {
-    errorMap: () => ({ message: "Priority must be Low, Medium, or High" }),
-  }),
-  course: z.string(),
-  link: z.string().url().optional(),
-  dueDate: z.preprocess((val) => {
-    return typeof val === 'string' ? new Date(val) : val;
-  }, z.date().optional())
-}));
 
 const isSubmitting = ref(false);
 const isFormValid = computed(() => {
   return (
-      taskData.value.title.trim() !== '' &&           // Title must not be empty
-      ["Backlog", "Working On", "Done"].includes(taskData.value.status) &&  // Status must be valid
-      ["Low", "Medium", "High"].includes(taskData.value.priority) &&        // Priority must be valid
-      taskData.value.course.trim() !== '' &&          // Course must not be empty
-      (!taskData.value.link || /^https?:\/\/[^\s$.?#].[^\s]*$/i.test(taskData.value.link)) && // Link must be valid URL or empty
-      (!taskData.value.dueDate || true) // Due date must be a valid date or empty
+    taskData.value.title.trim() !== "" && // Title must not be empty
+    ["Backlog", "Working On", "Done"].includes(taskData.value.status) && // Status must be valid
+    ["Low", "Medium", "High"].includes(taskData.value.priority) && // Priority must be valid
+    taskData.value.course.trim() !== "" && // Course must not be empty
+    (!taskData.value.link ||
+      /^https?:\/\/[^\s$.?#].[^\s]*$/i.test(taskData.value.link)) && // Link must be valid URL or empty
+    (!taskData.value.dueDate || true) // Due date must be a valid date or empty
   );
 });
 
@@ -55,26 +42,28 @@ async function submit() {
     }
     const createdTask = await taskStore.create(taskData.value as TaskDocument);
     toast({
-      title: 'Task created successfully!',
+      title: "Task created successfully!",
       description: createdTask.title,
-      variant: 'default',
+      variant: "default",
     });
-  } catch (error) {
-    toast({
-      title: 'Failed to create task',
-      description: error.message,
-      variant: 'destructive',
-    });
-  } finally {
     taskData.value = {
-      title: '',
-      description: '',
-      status: 'Backlog',
-      priority: 'Medium',
-      course: '',
-      link: '',
+      title: "",
+      description: "",
+      status: "Backlog",
+      priority: "Medium",
+      course: "",
+      link: "",
       dueDate: null,
     };
+    await taskStore.fetch();
+    dialogOpen.value = false;
+  } catch (error) {
+    toast({
+      title: "Failed to create task",
+      description: error.message,
+      variant: "destructive",
+    });
+  } finally {
     isSubmitting.value = false;
   }
 }
@@ -82,20 +71,22 @@ async function submit() {
 
 <template>
   <Form>
-    <Dialog>
+    <Dialog v-model:open="dialogOpen">
       <DialogTrigger as-child>
-        <Button>
-          Create Task
-        </Button>
+        <Button @click="dialogOpen = true"> Create Task </Button>
       </DialogTrigger>
       <DialogContent class="sm:max-w-[600px]">
-
         <form @submit.prevent="submit">
           <FormField v-slot="{ componentField }" name="title">
             <FormItem>
               <FormLabel>Title</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="Task Title" v-bind="componentField" v-model="taskData.title" />
+                <Input
+                  type="text"
+                  placeholder="Task Title"
+                  v-bind="componentField"
+                  v-model="taskData.title"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -105,7 +96,12 @@ async function submit() {
             <FormItem>
               <FormLabel>Description</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="Task Description" v-bind="componentField" v-model="taskData.description" />
+                <Input
+                  type="text"
+                  placeholder="Task Description"
+                  v-bind="componentField"
+                  v-model="taskData.description"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,21 +111,15 @@ async function submit() {
             <FormItem>
               <FormLabel>Status</FormLabel>
               <FormControl>
-                <Select v-bind="componentField" v-model="taskData.status" >
+                <Select v-bind="componentField" v-model="taskData.status">
                   <SelectTrigger>
                     <SelectValue placeholder="Select a status" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="Backlog">
-                        Backlog
-                      </SelectItem>
-                      <SelectItem value="Working On">
-                        Working On
-                      </SelectItem>
-                      <SelectItem value="Done">
-                        Done
-                      </SelectItem>
+                      <SelectItem value="Backlog"> Backlog </SelectItem>
+                      <SelectItem value="Working On"> Working On </SelectItem>
+                      <SelectItem value="Done"> Done </SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -142,21 +132,15 @@ async function submit() {
             <FormItem>
               <FormLabel>Priority</FormLabel>
               <FormControl>
-                <Select v-bind="componentField" v-model="taskData.priority" >
+                <Select v-bind="componentField" v-model="taskData.priority">
                   <SelectTrigger>
                     <SelectValue placeholder="Select a priority" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      <SelectItem value="Low">
-                        Low
-                      </SelectItem>
-                      <SelectItem value="Medium">
-                        Medium
-                      </SelectItem>
-                      <SelectItem value="High">
-                        High
-                      </SelectItem>
+                      <SelectItem value="Low"> Low </SelectItem>
+                      <SelectItem value="Medium"> Medium </SelectItem>
+                      <SelectItem value="High"> High </SelectItem>
                     </SelectGroup>
                   </SelectContent>
                 </Select>
@@ -169,7 +153,12 @@ async function submit() {
             <FormItem>
               <FormLabel>Course</FormLabel>
               <FormControl>
-                <Input type="text" placeholder="Course Name" v-bind="componentField" v-model="taskData.course" />
+                <Input
+                  type="text"
+                  placeholder="Course Name"
+                  v-bind="componentField"
+                  v-model="taskData.course"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -179,7 +168,12 @@ async function submit() {
             <FormItem>
               <FormLabel>Link</FormLabel>
               <FormControl>
-                <Input type="url" placeholder="https://example.com" v-bind="componentField" v-model="taskData.link" />
+                <Input
+                  type="url"
+                  placeholder="https://example.com"
+                  v-bind="componentField"
+                  v-model="taskData.link"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -189,7 +183,11 @@ async function submit() {
             <FormItem>
               <FormLabel>Due Date</FormLabel>
               <FormControl>
-                <Input type="date" v-bind="componentField" v-model="taskData.dueDate" />
+                <Input
+                  type="date"
+                  v-bind="componentField"
+                  v-model="taskData.dueDate"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -198,11 +196,12 @@ async function submit() {
           <div class="mb-6"></div>
 
           <DialogFooter>
-            <Button type="submit" :disabled="isSubmitting || !isFormValid" @click.prevent="submit">
-              <Loader2
-                  v-if="isSubmitting"
-                  class="w-4 h-4 mr-2 animate-spin"
-              />
+            <Button
+              type="submit"
+              :disabled="isSubmitting || !isFormValid"
+              @click.prevent="submit"
+            >
+              <Loader2 v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" />
               <span v-else>Create</span>
             </Button>
           </DialogFooter>
