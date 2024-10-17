@@ -42,10 +42,14 @@ function priorityColor(priority: string) {
 </script>
 
 <template>
-  <Card class="bg-slate-800 text-white">
+  <Card class="bg-slate-800 text-white border-none">
     <CardHeader class="flex justify-between items-center">
       <div>
-        <CardTitle class="text-base font-normal">{{ task.title }}</CardTitle>
+        <CardTitle
+          class="text-base font-normal"
+          :class="{ 'line-through text-green-400': task.status === 'Done' }"
+          >{{ task.title }}</CardTitle
+        >
         <CardDescription class="text-sm text-gray-400">{{
           task.course
         }}</CardDescription>

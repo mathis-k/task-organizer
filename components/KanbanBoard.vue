@@ -15,6 +15,13 @@ const priorityOrder = {
   Medium: 2,
   Low: 3,
 };
+
+function isUpdatedWithinWeek(task) {
+  const oneWeekAgo = new Date();
+  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+  return new Date(task.updatedAt) >= oneWeekAgo;
+}
+
 const tasks1 = computed(() => {
   return taskStore.tasks
     .filter((task) => task.status === columns[0].status)
@@ -29,7 +36,9 @@ const tasks2 = computed(() => {
 
 const tasks3 = computed(() => {
   return taskStore.tasks
-    .filter((task) => task.status === columns[2].status)
+    .filter(
+      (task) => task.status === columns[2].status && isUpdatedWithinWeek(task),
+    )
     .sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
 });
 
@@ -99,7 +108,7 @@ async function onDrop(event, status) {
       <div
         v-for="task in tasks3"
         :key="task._id"
-        class="drag-el"
+        class="drag-el-done"
         draggable="true"
         @dragstart="startDrag($event, task)"
       >
@@ -116,13 +125,16 @@ async function onDrop(event, status) {
 }
 .drop-zone {
   flex: 1;
-  border: 1px solid #ccc;
   padding: 10px;
   border-radius: 5px;
   background-color: #2f363d;
 }
 .drag-el {
   margin-bottom: 10px;
+}
+.drag-el-done {
+  margin-bottom: 10px;
+  opacity: 0.7;
 }
 .column-title {
   font-size: 1.2rem;
