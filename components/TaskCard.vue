@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import { useTasksStore } from "~/stores/tasks";
 import type { TaskDocument } from "~/server/models/Task";
-import { ChevronUp, ChevronDown, Minus } from "lucide-vue-next";
-import { Badge } from "~/components/ui/badge";
+import { ChevronUp, ChevronDown, Minus, ExternalLink } from "lucide-vue-next";
 
 const props = defineProps<{
   task: TaskDocument;
@@ -42,7 +41,7 @@ function priorityColor(priority: string) {
 </script>
 
 <template>
-  <Card class="bg-slate-800 text-white border-none">
+  <Card class="bg-slate-800 text-white border-none relative">
     <CardHeader class="flex justify-between items-center">
       <div>
         <CardTitle
@@ -55,6 +54,15 @@ function priorityColor(priority: string) {
         }}</CardDescription>
       </div>
     </CardHeader>
+    <a
+      v-if="task.link"
+      :href="task.link"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="absolute top-2 right-2"
+    >
+      <ExternalLink class="w-5 h-5 text-gray-400 hover:text-gray-200" />
+    </a>
     <CardContent>
       <div class="flex justify-between items-center">
         <component
