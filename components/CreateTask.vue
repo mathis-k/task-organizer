@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { Input } from "@/components/ui/input";
 import { useToast } from "~/components/ui/toast";
-import { toTypedSchema } from "@vee-validate/zod";
-import * as z from "zod";
 import type { TaskDocument } from "~/server/models/Task";
 import { Loader2 } from "lucide-vue-next";
 
@@ -24,13 +22,13 @@ const taskData = ref({
 const isSubmitting = ref(false);
 const isFormValid = computed(() => {
   return (
-    taskData.value.title.trim() !== "" && // Title must not be empty
-    ["Backlog", "Working On", "Done"].includes(taskData.value.status) && // Status must be valid
-    ["Low", "Medium", "High"].includes(taskData.value.priority) && // Priority must be valid
-    taskData.value.course.trim() !== "" && // Course must not be empty
+    taskData.value.title.trim() !== "" &&
+    ["Backlog", "Working On", "Done"].includes(taskData.value.status) &&
+    ["Low", "Medium", "High"].includes(taskData.value.priority) &&
+    taskData.value.course.trim() !== "" &&
     (!taskData.value.link ||
-      /^https?:\/\/[^\s$.?#].[^\s]*$/i.test(taskData.value.link)) && // Link must be valid URL or empty
-    (!taskData.value.dueDate || true) // Due date must be a valid date or empty
+      /^https?:\/\/[^\s$.?#].[^\s]*$/i.test(taskData.value.link)) &&
+    (!taskData.value.dueDate || true)
   );
 });
 
