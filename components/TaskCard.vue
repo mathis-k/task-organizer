@@ -7,12 +7,6 @@ const props = defineProps<{
   task: TaskDocument;
 }>();
 
-const tasksStore = useTasksStore();
-
-async function removeTask() {
-  await tasksStore.remove(props.task._id);
-}
-
 function priorityIcon(priority: string) {
   switch (priority) {
     case "High":
@@ -41,7 +35,9 @@ function priorityColor(priority: string) {
 </script>
 
 <template>
-  <Card class="bg-slate-800 text-white border-none relative">
+  <Card
+    class="bg-slate-800 text-white border-none relative transition-transform duration-200 ease-in-out hover:shadow-lg hover:scale-100"
+  >
     <CardHeader class="flex justify-between items-center">
       <div>
         <CardTitle
