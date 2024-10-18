@@ -1,7 +1,13 @@
 <script setup lang="ts">
 import { useTasksStore } from "~/stores/tasks";
 import type { TaskDocument } from "~/server/models/Task";
-import { ChevronUp, ChevronDown, Minus, ExternalLink } from "lucide-vue-next";
+import {
+  ChevronUp,
+  ChevronDown,
+  Minus,
+  ExternalLink,
+  Trash2,
+} from "lucide-vue-next";
 import { useToast } from "~/components/ui/toast";
 import { Loader2 } from "lucide-vue-next";
 import { Input } from "@/components/ui/input";
@@ -44,6 +50,35 @@ function priorityColor(priority: string) {
 
 function cancel() {
   isDialogOpen.value = false;
+}
+
+async function deleteTask() {
+  isSubmitting.value = true;
+  try {
+    const deletedTask = await taskStore.delete(props.task._id);
+    if (deletedTask) {
+      toast({
+        title: "Task deleted successfully!",
+        description: deletedTask.title,
+        variant: "default",
+      });
+      dialogOpen.value = false;
+    } else {
+      toast({
+        title: "Failed to delete task",
+        description: "Something went wrong",
+        variant: "destructive",
+      });
+    }
+  } catch (error) {
+    toast({
+      title: "Failed to delete task",
+      description: error.message,
+      variant: "destructive",
+    });
+  } finally {
+    isSubmitting.value = false;
+  }
 }
 
 async function updateTask() {
@@ -174,11 +209,21 @@ async function updateTask() {
         Due Date
         <Input type="date" v-model="task.dueDate" />
       </div>
-      <DialogFooter>
+      <DialogFooter class="relative">
+        <Button
+          variant="destructive"
+          :disabled="isSubmitting"
+          @click.prevent="deleteTask"
+          class="absolute left-0 bottom-0 p-2"
+        >
+          <Loader2 v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" />
+          <Trash2 class="w-5 h-5" />
+        </Button>
         <Button
           type="submit"
           :disabled="isSubmitting"
           @click.prevent="updateTask"
+          class="ml-auto"
         >
           <Loader2 v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" />
           <span v-else>Save changes</span>

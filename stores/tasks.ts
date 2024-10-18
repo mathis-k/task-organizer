@@ -47,8 +47,7 @@ export const useTasksStore = defineStore("tasks", () => {
     });
 
     if (response) {
-      const index = tasks.value.findIndex((t) => t._id === task._id);
-      tasks.value[index] = response;
+      await fetch();
       return response;
     }
   }
@@ -59,8 +58,7 @@ export const useTasksStore = defineStore("tasks", () => {
     });
 
     if (response) {
-      const index = tasks.value.findIndex((t) => t._id === id);
-      tasks.value.splice(index, 1);
+      await fetch();
       return response;
     }
   }
