@@ -55,7 +55,7 @@ function cancel() {
 async function deleteTask() {
   isSubmitting.value = true;
   try {
-    const deletedTask = await taskStore.delete(props.task._id);
+    const deletedTask = await taskStore.remove(props.task._id);
     if (deletedTask) {
       toast({
         title: "Task deleted successfully!",
