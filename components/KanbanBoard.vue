@@ -25,22 +25,31 @@ function isUpdatedWithinWeek(task) {
 const tasks1 = computed(() => {
   return taskStore.tasks
     .filter((task) => task.status === columns[0].status)
-    .sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-});
+      .sort((a, b) => {
+        const dueDateComparison = new Date(a.dueDate) - new Date(b.dueDate);
+        if (dueDateComparison !== 0) return dueDateComparison;
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+      });
 
 const tasks2 = computed(() => {
   return taskStore.tasks
     .filter((task) => task.status === columns[1].status)
-    .sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-});
+      .sort((a, b) => {
+        const dueDateComparison = new Date(a.dueDate) - new Date(b.dueDate);
+        if (dueDateComparison !== 0) return dueDateComparison;
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+      });
 
 const tasks3 = computed(() => {
   return taskStore.tasks
     .filter(
       (task) => task.status === columns[2].status && isUpdatedWithinWeek(task),
     )
-    .sort((a, b) => priorityOrder[a.priority] - priorityOrder[b.priority]);
-});
+      .sort((a, b) => {
+        const dueDateComparison = new Date(a.dueDate) - new Date(b.dueDate);
+        if (dueDateComparison !== 0) return dueDateComparison;
+        return priorityOrder[a.priority] - priorityOrder[b.priority];
+      });
 
 function startDrag(event, task) {
   console.log(task);
