@@ -136,6 +136,7 @@ async function updateTask() {
         <a
           v-if="task.link"
           :href="task.link"
+          @click="dialogOpen = false"
           target="_blank"
           rel="noopener noreferrer"
           class="absolute top-2 right-2"
