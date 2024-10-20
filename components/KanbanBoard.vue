@@ -48,9 +48,7 @@ const tasks3 = computed(() => {
       (task) => task.status === columns[2].status && isUpdatedWithinWeek(task),
     )
     .sort((a, b) => {
-      const dueDateComparison = new Date(a.dueDate) - new Date(b.dueDate);
-      if (dueDateComparison !== 0) return dueDateComparison;
-      return priorityOrder[a.priority] - priorityOrder[b.priority];
+      return new Date(a.updatedAt) - new Date(b.updatedAt);
     });
 });
 function startDrag(event, task) {
