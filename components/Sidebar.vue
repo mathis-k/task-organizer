@@ -1,9 +1,13 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { data } = useAuth();
+</script>
 
 <template>
-  <aside class="w-10 h-full text-white flex flex-col">
-    <UniLinks />
-  </aside>
+  <div v-if="data?.user">
+    <aside class="w-10 h-full text-white flex flex-col">
+      <UniLinks />
+    </aside>
+  </div>
 </template>
 
 <style scoped></style>
