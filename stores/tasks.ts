@@ -6,17 +6,22 @@ export const useTasksStore = defineStore("tasks", () => {
   const tasks = ref<TaskDocument[]>([]);
 
   async function fetch() {
-    const response: TaskDocument[] = await $fetch("/api/tasks", {
-      method: "GET",
-    });
-
-    if (response) {
-      tasks.value = response;
+    try {
+      const response: TaskDocument[] = await $fetch("/api/tasks", {
+        headers: useRequestHeaders(["cookie"]),
+        method: "GET",
+      });
+      if (response) {
+        tasks.value = response;
+      }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
     }
   }
 
   async function getTask(id: ObjectId) {
     const response: TaskDocument = await $fetch(`/api/tasks/${id}`, {
+      headers: useRequestHeaders(["cookie"]),
       method: "GET",
     });
 
@@ -29,6 +34,7 @@ export const useTasksStore = defineStore("tasks", () => {
     task.createdAt = new Date();
     task.updatedAt = new Date();
     const response: TaskDocument = await $fetch("/api/tasks", {
+      headers: useRequestHeaders(["cookie"]),
       method: "POST",
       body: task,
     });
@@ -42,6 +48,7 @@ export const useTasksStore = defineStore("tasks", () => {
   async function update(task: TaskDocument) {
     task.updatedAt = new Date();
     const response: TaskDocument = await $fetch(`/api/tasks`, {
+      headers: useRequestHeaders(["cookie"]),
       method: "PUT",
       body: task,
     });
@@ -54,6 +61,7 @@ export const useTasksStore = defineStore("tasks", () => {
 
   async function remove(id: ObjectId) {
     const response: TaskDocument = await $fetch(`/api/tasks/${id}`, {
+      headers: useRequestHeaders(["cookie"]),
       method: "DELETE",
     });
 
@@ -68,6 +76,7 @@ export const useTasksStore = defineStore("tasks", () => {
     if (task) {
       task.status = newStatus;
       const response: TaskDocument = await $fetch(`/api/tasks`, {
+        headers: useRequestHeaders(["cookie"]),
         method: "PUT",
         body: task,
       });

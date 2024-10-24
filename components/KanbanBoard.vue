@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useTasksStore } from "~/stores/tasks";
+import { useAsyncData } from "#app";
 
 const taskStore = useTasksStore();
+await useAsyncData("tasks", () => taskStore.fetch().then(() => true));
 
 const columns = [
   { status: "Backlog", title: "Backlog" },
