@@ -16,7 +16,7 @@ const linkTumOnline =
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent>
-      <DropdownMenuLabel> nützliche Links </DropdownMenuLabel>
+      <DropdownMenuLabel> helpful Links </DropdownMenuLabel>
       <DropdownMenuSeparator />
       <DropdownMenuItem>
         <a :href="linkArtemis" target="_blank" rel="noopener noreferrer">
