@@ -141,7 +141,10 @@ async function updateTask() {
           rel="noopener noreferrer"
           class="absolute top-2 right-2"
         >
-          <ExternalLink class="w-5 h-5 text-gray-400 hover:text-gray-200" />
+          <ExternalLink
+            class="w-5 h-5 text-gray-400 hover:text-gray-200"
+            @click="dialogOpen = false"
+          />
         </a>
         <CardContent>
           <div class="flex justify-between items-center">
