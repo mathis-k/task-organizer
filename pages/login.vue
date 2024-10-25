@@ -39,27 +39,27 @@ async function handleLogin() {
   <div class="login-container">
     <Card class="login-card">
       <CardHeader>
-        <CardTitle>Einloggen</CardTitle>
+        <CardTitle>Login</CardTitle>
       </CardHeader>
       <CardContent>
         <div class="form-group">
-          <label for="email">E-Mail</label>
+          <label for="email">Email</label>
           <Input
             v-model="email"
             type="email"
             id="email"
             required
-            placeholder="Deine E-Mail"
+            placeholder="your email"
           />
         </div>
         <div class="form-group">
-          <label for="password">Passwort</label>
+          <label for="password">Password</label>
           <Input
             v-model="password"
             type="password"
             id="password"
             required
-            placeholder="Dein Passwort"
+            placeholder="your password"
           />
         </div>
       </CardContent>
@@ -71,17 +71,17 @@ async function handleLogin() {
             @click.prevent="handleLogin"
           >
             <Loader2 v-if="isLoading" class="w-4 h-4 mr-2 animate-spin" />
-            <span v-else>Einloggen</span>
+            <span v-else>Login</span>
           </Button>
         </div>
       </CardFooter>
     </Card>
 
     <div class="register-container">
-      <span class="register-label">Noch kein Konto?</span>
+      <span class="register-label">Don't have an account yet?</span>
       <NuxtLink to="/register">
         <Button :disabled="isLoading" type="submit">
-          <span>Registrieren</span>
+          <span>Register</span>
         </Button>
       </NuxtLink>
     </div>

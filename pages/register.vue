@@ -22,23 +22,21 @@ async function handleRegister() {
 
     if (error.value) {
       toast({
-        title: "Registrierung fehlgeschlagen",
-        description:
-          error.value.message || "Ein unbekannter Fehler ist aufgetreten.",
+        title: "Registration failed",
+        description: error.value.message || "An unknown error occurred.",
         variant: "destructive",
       });
     } else {
       toast({
-        title: "Registrierung erfolgreich",
-        description:
-          "Du wurdest erfolgreich registriert. Bitte logge dich ein.",
+        title: "Registration successful",
+        description: "You have successfully registered. You can now log in.",
       });
       await useRouter().push("/login");
     }
   } catch (err) {
     toast({
-      title: "Registrierung fehlgeschlagen",
-      description: "Ein Fehler ist aufgetreten. Bitte versuche es erneut.",
+      title: "An error occurred",
+      description: "An unknown error occurred. Please try again later.",
       variant: "destructive",
     });
   } finally {
@@ -51,27 +49,27 @@ async function handleRegister() {
   <div class="login-container">
     <Card class="login-card">
       <CardHeader>
-        <CardTitle>Registrierung</CardTitle>
+        <CardTitle>Register</CardTitle>
       </CardHeader>
       <CardContent>
         <div class="form-group">
-          <label for="email">E-Mail</label>
+          <label for="email">Email</label>
           <Input
             v-model="email"
             type="email"
             id="email"
             required
-            placeholder="Deine E-Mail"
+            placeholder="your email"
           />
         </div>
         <div class="form-group">
-          <label for="password">Passwort</label>
+          <label for="password">Password</label>
           <Input
             v-model="password"
             type="password"
             id="password"
             required
-            placeholder="Dein Passwort"
+            placeholder="your password"
           />
         </div>
       </CardContent>
@@ -83,7 +81,7 @@ async function handleRegister() {
             @click.prevent="handleRegister"
           >
             <Loader2 v-if="isLoading" class="w-4 h-4 mr-2 animate-spin" />
-            <span v-else>Registrieren</span>
+            <span v-else>Register</span>
           </Button>
         </div>
       </CardFooter>
