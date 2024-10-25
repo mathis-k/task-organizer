@@ -4,31 +4,42 @@ import { ExternalLink } from "lucide-vue-next";
 const linkArtemis = "https://artemis.cit.tum.de/courses";
 const linkMoodle = "https://www.moodle.tum.de/my/";
 const linkTumLive = "https://live.rbg.tum.de/";
+const linkTumOnline =
+  "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/home?$ctx=design=ca;lang=de";
 </script>
 
 <template>
-  <div class="p-4">
-    <ul class="mt-4 space-y-4">
-      <li>
+  <DropdownMenu>
+    <DropdownMenuTrigger asChild>
+      <Button class="relative">
+        <ExternalLink class="w-6 h-6 text-foreground" />
+      </Button>
+    </DropdownMenuTrigger>
+    <DropdownMenuContent>
+      <DropdownMenuLabel> nützliche Links </DropdownMenuLabel>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem>
         <a :href="linkArtemis" target="_blank" rel="noopener noreferrer">
           Artemis
-          <ExternalLink class="w-10 h-10 text-gray-400 hover:text-gray-200" />
         </a>
-      </li>
-      <li>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
         <a :href="linkMoodle" target="_blank" rel="noopener noreferrer">
           Moodle
-          <ExternalLink class="w-10 h-10 text-gray-400 hover:text-gray-200" />
         </a>
-      </li>
-      <li>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
         <a :href="linkTumLive" target="_blank" rel="noopener noreferrer">
-          TUMLive
-          <ExternalLink class="w-10 h-10 text-gray-400 hover:text-gray-200" />
+          TUM-Live
         </a>
-      </li>
-    </ul>
-  </div>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <a :href="linkTumOnline" target="_blank" rel="noopener noreferrer">
+          TUM-Online
+        </a>
+      </DropdownMenuItem>
+    </DropdownMenuContent>
+  </DropdownMenu>
 </template>
 
 <style scoped></style>
