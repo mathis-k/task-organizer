@@ -6,7 +6,6 @@ definePageMeta({
   middleware: "guest",
 });
 
-
 const email = ref("");
 const password = ref("");
 const isLoading = ref(false);
@@ -24,9 +23,9 @@ async function handleLogin() {
 
   if (res?.error) {
     toast({
-      title: 'Anmeldung fehlgeschlagen',
-      description: res.error || 'Ein unbekannter Fehler ist aufgetreten.',
-      variant: 'destructive',
+      title: "Anmeldung fehlgeschlagen",
+      description: res.error || "Ein unbekannter Fehler ist aufgetreten.",
+      variant: "destructive",
     });
   } else {
     await useRouter().push("/");
@@ -46,46 +45,69 @@ async function handleLogin() {
         <div class="form-group">
           <label for="email">E-Mail</label>
           <Input
-              v-model="email"
-              type="email"
-              id="email"
-              required
-              placeholder="Deine E-Mail"
+            v-model="email"
+            type="email"
+            id="email"
+            required
+            placeholder="Deine E-Mail"
           />
         </div>
         <div class="form-group">
           <label for="password">Passwort</label>
           <Input
-              v-model="password"
-              type="password"
-              id="password"
-              required
-              placeholder="Dein Passwort"
+            v-model="password"
+            type="password"
+            id="password"
+            required
+            placeholder="Dein Passwort"
           />
         </div>
       </CardContent>
       <CardFooter>
         <div class="button-container">
-          <Button :disabled="isLoading" type="submit" @click.prevent="handleLogin">
-            <Loader2
-                v-if="isLoading"
-                class="w-4 h-4 mr-2 animate-spin"
-            />
+          <Button
+            :disabled="isLoading"
+            type="submit"
+            @click.prevent="handleLogin"
+          >
+            <Loader2 v-if="isLoading" class="w-4 h-4 mr-2 animate-spin" />
             <span v-else>Einloggen</span>
           </Button>
         </div>
       </CardFooter>
     </Card>
+
+    <div class="register-container">
+      <span class="register-label">Noch kein Konto?</span>
+      <NuxtLink to="/register">
+        <Button :disabled="isLoading" type="submit">
+          <span>Registrieren</span>
+        </Button>
+      </NuxtLink>
+    </div>
   </div>
 </template>
 
 <style scoped>
 .login-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
   background-color: var(--background);
+  gap: 1.5rem;
+}
+
+.register-container {
+  text-align: center;
+}
+
+.register-label {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
 }
 
 .login-card {
@@ -93,7 +115,7 @@ async function handleLogin() {
   width: 100%;
   padding: 1.5rem;
   background-color: var(--card);
-  border: none; /* border-radius: 8px; */
+  border: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 

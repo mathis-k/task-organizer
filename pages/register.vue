@@ -6,7 +6,6 @@ definePageMeta({
   middleware: "guest",
 });
 
-
 const email = ref("");
 const password = ref("");
 const isLoading = ref(false);
@@ -16,7 +15,7 @@ async function handleRegister() {
   isLoading.value = true;
 
   try {
-    const { data, error } = await useFetch("/api/users", {
+    const { error } = await useFetch("/api/users", {
       method: "POST",
       body: { email: email.value, password: password.value },
     });
@@ -24,15 +23,17 @@ async function handleRegister() {
     if (error.value) {
       toast({
         title: "Registrierung fehlgeschlagen",
-        description: error.value.message || "Ein unbekannter Fehler ist aufgetreten.",
+        description:
+          error.value.message || "Ein unbekannter Fehler ist aufgetreten.",
         variant: "destructive",
       });
     } else {
       toast({
         title: "Registrierung erfolgreich",
-        description: "Du wurdest erfolgreich registriert. Bitte logge dich ein.",
+        description:
+          "Du wurdest erfolgreich registriert. Bitte logge dich ein.",
       });
-      await router.push("/login");
+      await useRouter().push("/login");
     }
   } catch (err) {
     toast({
@@ -56,31 +57,32 @@ async function handleRegister() {
         <div class="form-group">
           <label for="email">E-Mail</label>
           <Input
-              v-model="email"
-              type="email"
-              id="email"
-              required
-              placeholder="Deine E-Mail"
+            v-model="email"
+            type="email"
+            id="email"
+            required
+            placeholder="Deine E-Mail"
           />
         </div>
         <div class="form-group">
           <label for="password">Passwort</label>
           <Input
-              v-model="password"
-              type="password"
-              id="password"
-              required
-              placeholder="Dein Passwort"
+            v-model="password"
+            type="password"
+            id="password"
+            required
+            placeholder="Dein Passwort"
           />
         </div>
       </CardContent>
       <CardFooter>
         <div class="button-container">
-          <Button :disabled="isLoading" type="submit" @click.prevent="handleRegister">
-            <Loader2
-                v-if="isLoading"
-                class="w-4 h-4 mr-2 animate-spin"
-            />
+          <Button
+            :disabled="isLoading"
+            type="submit"
+            @click.prevent="handleRegister"
+          >
+            <Loader2 v-if="isLoading" class="w-4 h-4 mr-2 animate-spin" />
             <span v-else>Registrieren</span>
           </Button>
         </div>
