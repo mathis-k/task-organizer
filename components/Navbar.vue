@@ -1,18 +1,8 @@
 <script setup lang="ts">
-import { Bell, ListTodo, CircleUser } from "lucide-vue-next";
+import { ListTodo } from "lucide-vue-next";
 
-const { data, signOut } = useAuth();
+const { data } = useAuth();
 const isCollapsed = ref(true);
-
-export type User = {
-  email: string;
-  password: string;
-};
-
-async function logout() {
-  await signOut();
-  await useRouter().push("/login");
-}
 </script>
 
 <template>
@@ -21,30 +11,15 @@ async function logout() {
       <div class="container mx-auto flex items-center justify-between px-6">
         <div class="flex items-center space-x-4">
           <ListTodo class="w-8 h-8 text-foreground" />
-          <span class="text-xl font-bold text-foreground"
-            >Mathis' Task Organizer</span
-          >
+          <span class="text-xl font-bold text-foreground">
+            Mathis' Task Organizer
+          </span>
         </div>
 
         <div class="flex items-center space-x-6">
           <CreateTask />
-
-          <UniLinks />
-
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button class="focus:outline-none">
-                <CircleUser class="w-8 h-8 text-foreground" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>{{
-                (data?.user as User).email
-              }}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem @click="logout">Logout</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Links />
+          <User />
         </div>
       </div>
     </nav>
