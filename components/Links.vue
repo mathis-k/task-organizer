@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { ExternalLink } from "lucide-vue-next";
 
-const linkArtemis = "https://artemis.cit.tum.de/courses";
-const linkMoodle = "https://www.moodle.tum.de/my/";
-const linkTumLive = "https://live.rbg.tum.de/";
-const linkTumOnline =
-  "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/home?$ctx=design=ca;lang=de";
+const links = [
+  { title: "Artemis", link: "https://artemis.cit.tum.de/courses" },
+  { title: "Moodle", link: "https://www.moodle.tum.de/my/" },
+  { title: "TUM-Live", link: "https://live.rbg.tum.de/" },
+  {
+    title: "TUM-Online",
+    link: "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/home?$ctx=design=ca;lang=de",
+  },
+  { title: "AnkiPro", link: "https://ankipro.net/decks" },
+];
 </script>
 
 <template>
@@ -18,24 +23,9 @@ const linkTumOnline =
     <DropdownMenuContent>
       <DropdownMenuLabel> helpful Links </DropdownMenuLabel>
       <DropdownMenuSeparator />
-      <DropdownMenuItem>
-        <a :href="linkArtemis" target="_blank" rel="noopener noreferrer">
-          Artemis
-        </a>
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <a :href="linkMoodle" target="_blank" rel="noopener noreferrer">
-          Moodle
-        </a>
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <a :href="linkTumLive" target="_blank" rel="noopener noreferrer">
-          TUM-Live
-        </a>
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <a :href="linkTumOnline" target="_blank" rel="noopener noreferrer">
-          TUM-Online
+      <DropdownMenuItem v-for="link in links">
+        <a :href="link.link" target="_blank" rel="noopener noreferrer">
+          {{ link.title }}
         </a>
       </DropdownMenuItem>
     </DropdownMenuContent>
