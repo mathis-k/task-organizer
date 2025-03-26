@@ -11,12 +11,6 @@ const links = computed<LinkProp[]>(() => [
     destination: "/",
     variant: route.path === "/" ? "default" : "ghost",
   },
-  {
-    title: "List",
-    icon: "List",
-    destination: "/list",
-    variant: route.path === "/list" ? "default" : "ghost",
-  },
 ]);
 </script>
 
