@@ -7,13 +7,5 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="container mx-auto mt-12">
-    <KanbanBoard />
-  </div>
+  <div class="max-w-6xl py-10 mx-auto"></div>
 </template>
-
-<style scoped>
-.container {
-  margin-top: 3rem;
-}
-</style>
