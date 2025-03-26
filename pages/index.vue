@@ -4,7 +4,6 @@ import KanbanBoard from "~/components/KanbanBoard.vue";
 definePageMeta({
   middleware: "auth",
 });
-console.log("Welcome to Mathis' Kanban Board");
 </script>
 
 <template>
