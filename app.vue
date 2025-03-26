@@ -7,5 +7,3 @@
   </div>
   <Toaster />
 </template>
-
-<script setup lang="ts"></script>
