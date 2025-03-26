@@ -4,54 +4,42 @@
 
 @layer base {
   :root {
-    /* Hintergrundfarben */
-    --background: #0d1117; /* Dark Mode Hintergrund */
-    --foreground: #c9d1d9; /* Dark Mode Text */
+    --background: #1A1A1A;
+    --foreground: #F0F0F0;
 
-    /* Primärfarben */
-    --primary: #2E81F4; /* GitHub Blue */
-    --primary-foreground: #ffffff; /* Text auf Primärfarbe */
+    --primary: #004D61;
+    --primary-foreground: #F0F0F0;
 
-    /* Sekundärfarben */
-    --secondary: #2BB673; /* GitHub Green */
-    --secondary-foreground: #ffffff; /* Text auf Sekundärfarbe */
+    --secondary: #822659;
+    --secondary-foreground: #F0F0F0;
 
-    /* Destructive (Rot) */
-    --destructive: #d73a49; /* GitHub Red */
-    --destructive-foreground: #ffffff; /* Text auf Destructive */
+    --destructive: #FF4C4C;
+    --destructive-foreground: #F0F0F0;
 
-    /* Gedämpfte Farben */
-    --muted: #a0a0a0; /* GitHub Muted */
-    --muted-foreground: #d0d0d0; /* Text auf Muted */
+    --muted: #666666;
+    --muted-foreground: #999999;
 
-    /* Akzentfarben */
-    --accent: #ffa500; /* GitHub Orange */
-    --accent-foreground: #ffffff; /* Text auf Akzentfarbe */
+    --accent: #C79B4B;
+    --accent-foreground: #F0F0F0;
 
-    /* Popover */
-    --popover: #2A2A2A; /* GitHub Popover Hintergrund */
-    --popover-foreground: #EAEAEA; /* Popover Text */
+    --popover: #2A2A2A;
+    --popover-foreground: #F0F0F0;
 
-    /* Karten */
-    --card: #2A2A2A; /* GitHub Karten Hintergrund */
-    --card-foreground: #EAEAEA; /* Karten Text */
+    --card: #2A2A2A;
+    --card-foreground: #F0F0F0;
 
-    /* Border Farben */
-    --border: #30363d; /* GitHub Border */
+    --border: #333333;
 
-    /* Eingabefeld */
-    --input: #161b22; /* GitHub Eingabefeld Hintergrund */
+    --input: #212121;
 
-    /* Ring Farbe */
-    --ring: #2f363d; /* GitHub Ring Farbe */
+    --ring: #004D61;
 
-    /* Abrundung */
-    --radius: 0.5rem; /* 8px */
+    --radius: 0.5rem;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Helvetica', sans-serif;
   }
 
   a {
@@ -65,21 +53,20 @@
 }
 
 @layer components {
-  /* Komponenten */
   .btn-primary {
-    @apply bg-primary text-primary-foreground border border-primary hover:bg-primary;
+    @apply bg-primary text-primary-foreground border border-primary hover:bg-opacity-80;
   }
 
   .btn-success {
-    @apply bg-secondary text-secondary-foreground border border-secondary hover:bg-secondary;
+    @apply bg-secondary text-secondary-foreground border border-secondary hover:bg-opacity-80;
   }
 
   .btn-danger {
-    @apply bg-destructive text-destructive-foreground border border-destructive hover:bg-destructive;
+    @apply bg-destructive text-destructive-foreground border border-destructive hover:bg-opacity-80;
   }
 
   .btn-warning {
-    @apply bg-accent text-accent-foreground border border-accent hover:bg-accent;
+    @apply bg-accent text-accent-foreground border border-accent hover:bg-opacity-80;
   }
 
   .input {
@@ -90,7 +77,6 @@
     @apply ring-2 ring-primary;
   }
 
-  /* Beispiel für Karten und Popover */
   .card {
     @apply bg-card text-card-foreground border border-border p-4 rounded;
   }
