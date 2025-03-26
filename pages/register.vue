@@ -10,6 +10,7 @@ const email = ref("");
 const password = ref("");
 const isLoading = ref(false);
 const { toast } = useToast();
+const router = useRouter();
 
 async function handleRegister() {
   isLoading.value = true;
@@ -31,7 +32,7 @@ async function handleRegister() {
         title: "Registration successful",
         description: "You have successfully registered. You can now log in.",
       });
-      await useRouter().push("/login");
+      await router.push("/login");
     }
   } catch (err) {
     toast({
@@ -46,72 +47,43 @@ async function handleRegister() {
 </script>
 
 <template>
-  <div class="login-container">
-    <Card class="login-card">
-      <CardHeader>
-        <CardTitle>Register</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div class="form-group">
-          <label for="email">Email</label>
+  <div class="h-screen w-screen flex items-center justify-center">
+    <div class="mx-auto grid w-[350px] gap-6 rounded-2xl shadow-lg">
+      <div class="grid gap-2 text-center">
+        <h1 class="text-3xl font-bold">Register</h1>
+      </div>
+      <form @submit.prevent="handleRegister" class="grid gap-4">
+        <div class="grid gap-2">
+          <Label for="email">Email</Label>
           <Input
             v-model="email"
-            type="email"
             id="email"
+            type="email"
+            placeholder="m@example.com"
             required
-            placeholder="your email"
           />
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
+        <div class="grid gap-2">
+          <Label for="password">Password</Label>
           <Input
             v-model="password"
-            type="password"
             id="password"
+            type="password"
+            placeholder="********"
             required
-            placeholder="your password"
           />
         </div>
-      </CardContent>
-      <CardFooter>
-        <div class="button-container">
-          <Button
-            :disabled="isLoading"
-            type="submit"
-            @click.prevent="handleRegister"
-          >
-            <Loader2 v-if="isLoading" class="w-4 h-4 mr-2 animate-spin" />
-            <span v-else>Register</span>
-          </Button>
-        </div>
-      </CardFooter>
-    </Card>
+        <Button type="submit" class="w-full" :disabled="isLoading">
+          <Loader2 v-if="isLoading" class="w-4 h-4 mr-2 animate-spin" />
+          <span v-else>Register</span>
+        </Button>
+      </form>
+      <div class="mt-4 text-center text-sm">
+        Already have an account?
+        <NuxtLink to="/login" :disabled="isLoading" class="underline">
+          Login
+        </NuxtLink>
+      </div>
+    </div>
   </div>
 </template>
-
-<style scoped>
-.login-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: var(--background);
-}
-
-.login-card {
-  max-width: 400px;
-  width: 100%;
-  padding: 1.5rem;
-  background-color: var(--card);
-  border: none; /* border-radius: 8px; */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-.button-container {
-  margin-top: 1rem;
-}
-</style>
