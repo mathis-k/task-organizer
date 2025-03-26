@@ -10,5 +10,3 @@ const isCollapsed = ref(true);
     </nav>
   </div>
 </template>
-
-<style scoped></style>
