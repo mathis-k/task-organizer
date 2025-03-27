@@ -1,16 +1,20 @@
 import type { ObjectId } from "mongoose";
 import { defineStore } from "pinia";
 import type { TaskDocument } from "~/server/models/Task";
+import type { User } from "~/components/User.vue";
 
 export const useTasksStore = defineStore("tasks", () => {
   const tasks = ref<TaskDocument[]>([]);
 
   async function fetch() {
     try {
-      const response: TaskDocument[] = await $fetch("/api/tasks", {
-        headers: useRequestHeaders(["cookie"]),
-        method: "GET",
-      });
+      const response: TaskDocument[] = await $fetch<TaskDocument[]>(
+        "/api/tasks",
+        {
+          headers: useRequestHeaders(["cookie"]),
+          method: "GET",
+        },
+      );
       if (response) {
         tasks.value = response;
       }
@@ -20,10 +24,13 @@ export const useTasksStore = defineStore("tasks", () => {
   }
 
   async function getTask(id: ObjectId) {
-    const response: TaskDocument = await $fetch(`/api/tasks/${id}`, {
-      headers: useRequestHeaders(["cookie"]),
-      method: "GET",
-    });
+    const response: TaskDocument = await $fetch<TaskDocument>(
+      `/api/tasks/${id}`,
+      {
+        headers: useRequestHeaders(["cookie"]),
+        method: "GET",
+      },
+    );
 
     if (response) {
       return response;
@@ -33,7 +40,11 @@ export const useTasksStore = defineStore("tasks", () => {
   async function create(task: TaskDocument) {
     task.createdAt = new Date();
     task.updatedAt = new Date();
-    const response: TaskDocument = await $fetch("/api/tasks", {
+
+    const { data } = useAuth();
+    task.user = (data?.value?.user as User)._id;
+
+    const response: TaskDocument = await $fetch<TaskDocument>("/api/tasks", {
       headers: useRequestHeaders(["cookie"]),
       method: "POST",
       body: task,
@@ -47,7 +58,7 @@ export const useTasksStore = defineStore("tasks", () => {
 
   async function update(task: TaskDocument) {
     task.updatedAt = new Date();
-    const response: TaskDocument = await $fetch(`/api/tasks`, {
+    const response: TaskDocument = await $fetch<TaskDocument>(`/api/tasks`, {
       headers: useRequestHeaders(["cookie"]),
       method: "PUT",
       body: task,
@@ -60,10 +71,13 @@ export const useTasksStore = defineStore("tasks", () => {
   }
 
   async function remove(id: ObjectId) {
-    const response: TaskDocument = await $fetch(`/api/tasks/${id}`, {
-      headers: useRequestHeaders(["cookie"]),
-      method: "DELETE",
-    });
+    const response: TaskDocument = await $fetch<TaskDocument>(
+      `/api/tasks/${id}`,
+      {
+        headers: useRequestHeaders(["cookie"]),
+        method: "DELETE",
+      },
+    );
 
     if (response) {
       await fetch();
@@ -71,11 +85,14 @@ export const useTasksStore = defineStore("tasks", () => {
     }
   }
 
-  async function updateTaskStatus(taskId, newStatus) {
+  async function updateTaskStatus(
+    taskId: ObjectId,
+    newStatus: "Backlog" | "Working On" | "Done",
+  ) {
     const task = tasks.value.find((task) => task._id === taskId);
     if (task) {
       task.status = newStatus;
-      const response: TaskDocument = await $fetch(`/api/tasks`, {
+      const response: TaskDocument = await $fetch<TaskDocument>(`/api/tasks`, {
         headers: useRequestHeaders(["cookie"]),
         method: "PUT",
         body: task,
