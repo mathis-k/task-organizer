@@ -2,6 +2,7 @@ import { Schema, model, ObjectId, Document } from "mongoose";
 
 export interface TaskDocument extends Document {
   _id: ObjectId;
+  user: ObjectId;
   title: string;
   description: string;
   status: "Backlog" | "Working On" | "Done";
