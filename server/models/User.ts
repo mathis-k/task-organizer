@@ -1,25 +1,26 @@
-import { Schema, model, Document } from "mongoose";
+import { Schema, model, Document, ObjectId } from "mongoose";
 
 export interface UserDocument extends Document {
-    email: string;
-    password: string;
+  _id: ObjectId;
+  email: string;
+  password: string;
 }
 
 const userSchema = new Schema(
-    {
-        email: {
-            type: String,
-            required: [true, "E-mail is required"],
-            unique: true,
-        },
-        password: {
-            type: String,
-            required: [true, "Password is required"],
-        },
+  {
+    email: {
+      type: String,
+      required: [true, "E-mail is required"],
+      unique: true,
     },
-    {
-        timestamps: true,
-    }
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+    },
+  },
+  {
+    timestamps: true,
+  },
 );
 
 export const User = model<UserDocument>("User", userSchema);
