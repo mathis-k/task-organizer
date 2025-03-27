@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { CircleUser } from "lucide-vue-next";
+import type { ObjectId } from "mongoose";
 const { data, signOut } = useAuth();
 
 export type User = {
+  _id: ObjectId;
   email: string;
   password: string;
 };
@@ -21,8 +23,6 @@ async function logout() {
       </Button>
     </DropdownMenuTrigger>
     <DropdownMenuContent>
-      <DropdownMenuLabel>{{ (data?.user as User).email }}</DropdownMenuLabel>
-      <DropdownMenuSeparator />
       <DropdownMenuItem @click="logout">Logout</DropdownMenuItem>
     </DropdownMenuContent>
   </DropdownMenu>
