@@ -5,14 +5,6 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
   try {
-    if (!body.email || !body.password) {
-      throw createError({
-        statusCode: 400,
-        statusMessage: "Bad Request",
-        message: "Email and password are required.",
-      });
-    }
-
     const existingUser = await User.findOne({ email: body.email });
     if (existingUser) {
       throw createError({
@@ -25,7 +17,7 @@ export default defineEventHandler(async (event) => {
     const hashedPassword = await bcrypt.hash(body.password, 10); // Salt-Rounds = 10
 
     const user = new User({
-      email: body.email,
+      ...body,
       password: hashedPassword,
     });
 
