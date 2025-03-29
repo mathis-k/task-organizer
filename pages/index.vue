@@ -4,6 +4,4 @@ definePageMeta({
 });
 </script>
 
-<template>
-  <div class="max-w-6xl py-10 mx-auto"></div>
-</template>
+<template></template>
