@@ -4,37 +4,53 @@
 
 @layer base {
   :root {
-    --background: #1A1A1A;
+    --background: #09090b;
     --foreground: #F0F0F0;
 
-    --primary: #004D61;
+    --primary: #2E294E;
     --primary-foreground: #F0F0F0;
 
-    --secondary: #822659;
+    --secondary: #647AA3;
     --secondary-foreground: #F0F0F0;
 
-    --destructive: #FF4C4C;
+    --destructive: #dc2626;
     --destructive-foreground: #F0F0F0;
 
     --muted: #666666;
     --muted-foreground: #999999;
 
-    --accent: #C79B4B;
+    --accent: #3E517A;
     --accent-foreground: #F0F0F0;
 
-    --popover: #2A2A2A;
+    --popover: #17171a;
     --popover-foreground: #F0F0F0;
 
-    --card: #2A2A2A;
+    --card: #17171a;
     --card-foreground: #F0F0F0;
 
     --border: #333333;
 
     --input: #212121;
 
-    --ring: #004D61;
+    --ring: #2E294E;
 
     --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
   body {
@@ -43,12 +59,22 @@
   }
 
   a {
-    color: var(--accent);
+    color: var(--primary);
     text-decoration: none;
   }
 
   a:hover {
     text-decoration: underline;
+  }
+  .dark {
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
 
@@ -83,5 +109,14 @@
 
   .popover {
     @apply bg-popover text-popover-foreground border border-border p-4 rounded shadow-lg;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
   }
 }
