@@ -4,6 +4,9 @@ export interface UserDocument extends Document {
   _id: ObjectId;
   email: string;
   password: string;
+  firstName: string;
+  lastName: string;
+  avatar: string;
 }
 
 const userSchema = new Schema(
@@ -16,6 +19,18 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
+    },
+    firstName: {
+      type: String,
+      required: [true, "First name is required"],
+    },
+    lastName: {
+      type: String,
+      required: [true, "Last name is required"],
+    },
+    avatar: {
+      type: String,
+      default: "https://www.shadcn-vue.com/avatars/shadcn.jpg",
     },
   },
   {
