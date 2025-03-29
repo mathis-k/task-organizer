@@ -38,7 +38,7 @@ async function handleLogin() {
 
 <template>
   <div class="h-screen w-screen flex items-center justify-center">
-    <div class="mx-auto grid w-[350px] gap-6 rounded-2xl shadow-lg">
+    <div class="mx-auto grid w-[350px] gap-6">
       <div class="grid gap-2 text-center">
         <h1 class="text-3xl font-bold">Login</h1>
       </div>
@@ -63,7 +63,11 @@ async function handleLogin() {
             required
           />
         </div>
-        <Button type="submit" class="w-full" :disabled="isLoading">
+        <Button
+          type="submit"
+          class="w-full bg-[#F0F0F0] text-[#09090B]"
+          :disabled="isLoading"
+        >
           <Loader2 v-if="isLoading" class="w-4 h-4 mr-2 animate-spin" />
           <span v-else>Login</span>
         </Button>
