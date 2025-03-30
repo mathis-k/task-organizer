@@ -8,6 +8,13 @@ type User = {
   email: string;
   avatar: string;
 };
+const initials = computed(() => {
+  const user = data?.value?.user as User;
+  if (!user) return "";
+  const firstNameInitial = user.firstName.charAt(0).toUpperCase();
+  const lastNameInitial = user.lastName.charAt(0).toUpperCase();
+  return `${firstNameInitial}${lastNameInitial}`;
+});
 async function logout() {
   await signOut();
   await useRouter().push("/login");
@@ -28,7 +35,9 @@ async function logout() {
                 :src="(data?.user as User).avatar"
                 :alt="(data?.user as User).email"
               />
-              <AvatarFallback class="rounded-lg"> CN </AvatarFallback>
+              <AvatarFallback class="rounded-lg">
+                {{ initials }}
+              </AvatarFallback>
             </Avatar>
             <div class="grid flex-1 text-left text-sm leading-tight">
               <span class="truncate font-semibold">
@@ -55,7 +64,9 @@ async function logout() {
                   :src="(data?.user as User).avatar"
                   :alt="(data?.user as User).email"
                 />
-                <AvatarFallback class="rounded-lg"> CN </AvatarFallback>
+                <AvatarFallback class="rounded-lg">
+                  {{ initials }}
+                </AvatarFallback>
               </Avatar>
               <div class="grid flex-1 text-left text-sm leading-tight">
                 <span class="truncate font-semibold">
