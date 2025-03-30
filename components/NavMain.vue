@@ -17,7 +17,7 @@ defineProps<{
 
 <template>
   <SidebarGroup>
-    <SidebarGroupLabel>Platform</SidebarGroupLabel>
+    <SidebarGroupLabel>Organization</SidebarGroupLabel>
     <SidebarMenu>
       <Collapsible
         v-for="item in items"
@@ -42,7 +42,7 @@ defineProps<{
                 v-for="subItem in item.items"
                 :key="subItem.title"
               >
-                <SidebarMenuSubButton as-child>
+                <SidebarMenuSubButton as-child class="text-muted-foreground">
                   <a :href="subItem.url">
                     <span>{{ subItem.title }}</span>
                   </a>
