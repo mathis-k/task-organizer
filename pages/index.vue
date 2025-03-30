@@ -1,7 +1,8 @@
 <script setup lang="ts">
 definePageMeta({
+  title: "Home",
   middleware: "auth",
 });
 </script>
 
-<template></template>
+<template>Home</template>
