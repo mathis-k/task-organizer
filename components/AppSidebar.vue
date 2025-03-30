@@ -1,5 +1,11 @@
 <script setup lang="ts">
-import { BookOpen, Bot, Settings2, SquareTerminal } from "lucide-vue-next";
+import {
+  GraduationCap,
+  Focus,
+  NotebookPen,
+  Cpu,
+  Settings2,
+} from "lucide-vue-next";
 import NavMain from "~/components/NavMain.vue";
 import NavUser from "~/components/NavUser.vue";
 import type { SidebarProps } from "~/components/ui/sidebar";
@@ -10,86 +16,93 @@ const props = withDefaults(defineProps<SidebarProps>(), {
 const data = {
   navMain: [
     {
-      title: "Playground",
+      title: "Core Features",
       url: "#",
-      icon: SquareTerminal,
+      icon: Cpu,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "Kanban Board",
+          url: "kanban-board",
         },
         {
-          title: "Starred",
-          url: "#",
+          title: "To-do List",
+          url: "to-do-list",
         },
         {
-          title: "Settings",
-          url: "#",
+          title: "Calendar",
+          url: "calendar",
         },
       ],
     },
     {
-      title: "Models",
+      title: "Productivity & Tracking",
       url: "#",
-      icon: Bot,
+      icon: Focus,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "Study Session",
+          url: "focus/study",
         },
         {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
+          title: "Pomodoro Timer",
+          url: "focus/pomodoro",
         },
       ],
     },
     {
-      title: "Documentation",
+      title: "Academic Features",
       url: "#",
-      icon: BookOpen,
+      icon: GraduationCap,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "Course Management",
+          url: "academic/course-management",
         },
         {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
+          title: "Semester Planner",
+          url: "academic/semester-planner",
         },
       ],
     },
     {
-      title: "Settings",
+      title: "Personal Organization",
+      url: "#",
+      icon: NotebookPen,
+      items: [
+        {
+          title: "Habits",
+          url: "personal/habits",
+        },
+        {
+          title: "Finances",
+          url: "personal/finances",
+        },
+        {
+          title: "Events",
+          url: "personal/events",
+        },
+      ],
+    },
+    {
+      title: "Settings & Administration",
       url: "#",
       icon: Settings2,
       items: [
         {
-          title: "General",
-          url: "#",
+          title: "General Settings",
+          url: "settings/general",
         },
         {
-          title: "Team",
-          url: "#",
+          title: "Appearance",
+          url: "settings/appearance",
         },
         {
-          title: "Billing",
-          url: "#",
+          title: "Integrations & Automation",
+          url: "settings/integrations",
         },
         {
-          title: "Limits",
+          title: "Account Management",
           url: "#",
         },
       ],
