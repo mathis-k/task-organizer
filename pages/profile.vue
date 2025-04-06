@@ -1,4 +1,8 @@
 <script setup lang="ts">
+definePageMeta({
+  middleware: "auth",
+});
+
 import { User } from "lucide-vue-next";
 const { data } = useAuth();
 
