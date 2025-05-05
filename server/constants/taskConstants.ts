@@ -2,6 +2,7 @@ export const TASK_TYPES = [
   "exercise",
   "learning objective",
   "homework",
+  "todo",
 ] as const;
 export const TASK_STATUSES = [
   "backlog",

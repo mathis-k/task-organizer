@@ -92,8 +92,6 @@ export const useTasks = defineStore("tasks", () => {
 
   const get = computed(() => tasks.value);
 
-  const getWithFilter = computed((filter: string) => {});
-
   const stats = computed(() => {
     const stats = {
       dueToday: 0,

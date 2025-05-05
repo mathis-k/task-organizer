@@ -8,20 +8,28 @@ const modules = useModules();
 await useAsyncData("tasks", () => tasks.fetch().then(() => true));
 await useAsyncData("modules", () => modules.fetch().then(() => true));
 
+const selectedModule = ref<string | null>(null);
+const selectedPriority = ref<string | null>(null);
+const selectedType = ref<string | null>(null);
+
+const filteredTasks = computed(() => {
+  return tasks.get.filter((task) => {});
+});
+
 const backlogTasks = computed(() => {
-  return tasks.get.filter((task) => task.status === "backlog");
+  return filteredTasks.value.filter((task) => task.status === "backlog");
 });
 const plannedTasks = computed(() => {
-  return tasks.get.filter((task) => task.status === "planned");
+  return filteredTasks.value.filter((task) => task.status === "planned");
 });
 const activeTasks = computed(() => {
-  return tasks.get.filter((task) => task.status === "active");
+  return filteredTasks.value.filter((task) => task.status === "active");
 });
 const thisWeekTasks = computed(() => {
-  return tasks.get.filter((task) => task.status === "this week");
+  return filteredTasks.value.filter((task) => task.status === "this week");
 });
 const doneTasks = computed(() => {
-  return tasks.get.filter((task) => task.status === "done");
+  return filteredTasks.value.filter((task) => task.status === "done");
 });
 </script>
 
