@@ -100,7 +100,7 @@ async function handleSave() {
     <DialogTrigger as-child>
       <TaskCardTrigger :task="task" />
     </DialogTrigger>
-    <DialogContent class="sm:max-w-[425px] border-none">
+    <DialogContent>
       <DialogHeader>
         <DialogTitle>Edit task</DialogTitle>
         <DialogDescription></DialogDescription>
@@ -111,10 +111,12 @@ async function handleSave() {
           <Input id="title" v-model="title" required />
         </div>
 
-        <div>
+        <div class="overflow-hidden truncate whitespace-nowrap border-none">
           <Label for="module">Module</Label>
           <Select id="module" v-model="module">
-            <SelectTrigger>
+            <SelectTrigger
+              class="focus:outline-none focus:ring-0 focus:ring-transparent"
+            >
               <SelectValue
                 class="text-muted-foreground"
                 placeholder="Pick a module"

@@ -64,7 +64,7 @@ import { capitalize } from "~/lib/utils";
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
-            <ModeSwitch />
+            <ModeSwitch class="mr-4" />
           </header>
           <div class="flex-1 overflow-auto p-4">
             <NuxtPage class="max-w-full max-h-full overflow-auto" />

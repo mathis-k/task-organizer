@@ -39,7 +39,14 @@ const filter = ((task: TaskDocument) => {
 }) as (task: TaskDocument) => boolean;
 
 const filteredTasks = computed(() => {
-  return tasks.get.filter((task) => filter(task));
+  return tasks.get
+    .filter((task) => filter(task))
+    .sort((a, b) => {
+      if (a.dueDate && b.dueDate) {
+        return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
+      }
+      return 0;
+    });
 });
 
 const backlogTasks = computed(() => {
