@@ -1,21 +1,43 @@
 import { Schema, model, ObjectId, Document } from "mongoose";
-
+import {
+  TASK_TYPES,
+  TASK_STATUSES,
+  TASK_PRIORITIES,
+  TaskType,
+  TaskStatus,
+  TaskPriority,
+} from "../constants/taskConstants";
 export interface TaskDocument extends Document {
   _id: ObjectId;
   user: ObjectId;
+  module: ObjectId;
   title: string;
-  description: string;
-  status: "Backlog" | "Working On" | "Done";
-  priority: "Low" | "Medium" | "High";
-  course: string;
-  link: string;
-  dueDate: Date;
+  description?: string;
+  type: TaskType;
+  status: TaskStatus;
+  priority: TaskPriority;
+  resolution: boolean;
+  effortEstimate?: number;
+  actualEffort?: number;
+  linkedResources?: string[];
+  dueDate?: Date;
+  resolutionDate?: Date;
   createdAt: Date;
   updatedAt: Date;
 }
 
 const taskSchema = new Schema(
   {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: [true, "User is required"],
+    },
+    module: {
+      type: Schema.Types.ObjectId,
+      ref: "Module",
+      required: [true, "Module is required"],
+    },
     title: {
       type: String,
       required: [true, "Title is required"],
@@ -23,23 +45,41 @@ const taskSchema = new Schema(
     description: {
       type: String,
     },
+    type: {
+      type: String,
+      enum: TASK_TYPES,
+      required: [true, "Type is required"],
+    },
     status: {
       type: String,
-      enum: ["Backlog", "Working On", "Done"],
-      default: "Backlog",
+      enum: TASK_STATUSES,
+      default: "backlog",
+      required: [true, "Status is required"],
     },
     priority: {
       type: String,
-      enum: ["Low", "Medium", "High"],
-      default: "Medium",
+      enum: TASK_PRIORITIES,
+      default: "medium",
+      required: [true, "Priority is required"],
     },
-    course: {
-      type: String,
+    resolution: {
+      type: Boolean,
+      default: false,
+      required: [true, "Resolution is required"],
     },
-    link: {
-      type: String,
+    effortEstimate: {
+      type: Number,
+    },
+    actualEffort: {
+      type: Number,
+    },
+    linkedResources: {
+      type: [String],
     },
     dueDate: {
+      type: Date,
+    },
+    resolutionDate: {
       type: Date,
     },
   },
@@ -48,4 +88,4 @@ const taskSchema = new Schema(
   },
 );
 
-export const Task = model<TaskDocument>("Task", taskSchema);
+export const Task = model("Task", taskSchema);

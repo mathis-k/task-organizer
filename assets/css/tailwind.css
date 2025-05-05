@@ -4,119 +4,103 @@
 
 @layer base {
   :root {
+    --radius: 0.5rem;
+
+    --background: #f3f4f6;
+    --foreground: #010816;
+
+    --primary: #3F3F3F;
+    --primary-foreground: #f7f9fb;
+
+    --secondary: #f1f5f9;
+    --secondary-foreground: #3F3F3F;
+
+    --destructive: #ee4444;
+    --destructive-foreground: #f7f9fb;
+
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+
+    --accent: #3F3F3F20;
+    --accent-foreground: #3F3F3F;
+
+    --popover: #ffffff;
+    --popover-foreground: #010816;
+
+    --card: #ffffff;
+    --card-foreground: #010816;
+
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #010816;
+  }
+
+  .dark {
     --background: #09090b;
-    --foreground: #F0F0F0;
+    --foreground: #f0f0f0;
 
     --primary: #3E517A;
-    --primary-foreground: #F0F0F0;
+    --primary-foreground: #f0f0f0;
 
     --secondary: #2E294E;
-    --secondary-foreground: #F0F0F0;
+    --secondary-foreground: #f0f0f0;
 
     --destructive: #dc2626;
-    --destructive-foreground: #F0F0F0;
+    --destructive-foreground: #f0f0f0;
 
     --muted: #666666;
     --muted-foreground: #999999;
 
     --accent: #3E517A;
-    --accent-foreground: #F0F0F0;
+    --accent-foreground: #f0f0f0;
 
     --popover: #17171a;
-    --popover-foreground: #F0F0F0;
+    --popover-foreground: #f0f0f0;
 
     --card: #17171a;
-    --card-foreground: #F0F0F0;
+    --card-foreground: #f0f0f0;
 
     --border: #333333;
-
     --input: #212121;
-
     --ring: #3E517A;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-family: 'Helvetica', sans-serif;
-  }
-
-  a {
-    color: var(--primary);
-    text-decoration: none;
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
-  .dark {
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
   }
 }
-
-@layer components {
-  .btn-primary {
-    @apply bg-primary text-primary-foreground border border-primary hover:bg-opacity-80;
-  }
-
-  .btn-success {
-    @apply bg-secondary text-secondary-foreground border border-secondary hover:bg-opacity-80;
-  }
-
-  .btn-danger {
-    @apply bg-destructive text-destructive-foreground border border-destructive hover:bg-opacity-80;
-  }
-
-  .btn-warning {
-    @apply bg-accent text-accent-foreground border border-accent hover:bg-opacity-80;
-  }
-
-  .input {
-    @apply bg-card text-foreground border border-border p-2 rounded;
-  }
-
-  .input:focus {
-    @apply ring-2 ring-primary;
-  }
-
-  .card {
-    @apply bg-card text-card-foreground border border-border p-4 rounded;
-  }
-
-  .popover {
-    @apply bg-popover text-popover-foreground border border-border p-4 rounded shadow-lg;
-  }
-}
-
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .bg-sticky::before {
+    left: -1rem;
+  }
+
+  .bg-sticky::after {
+    right: -1rem;
+  }
+
+  .bg-sticky::before,
+  .bg-sticky::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    width: 1rem;
+    background-color: hsl(var(--background));
   }
 }

@@ -3,7 +3,7 @@ import AppSidebar from "~/components/AppSidebar.vue";
 const { data } = useAuth();
 const route = useRoute();
 
-const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
+import { capitalize } from "~/lib/utils";
 </script>
 
 <template>

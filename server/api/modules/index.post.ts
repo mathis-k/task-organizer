@@ -1,4 +1,4 @@
-import { Task } from "~/server/models/Task";
+import { Module } from "~/server/models/Module";
 import routeProtection from "~/server/routeProtection";
 
 export default defineEventHandler(async (event) => {
@@ -6,10 +6,10 @@ export default defineEventHandler(async (event) => {
   const body = await readBody(event);
 
   try {
-    return await Task.findOneAndUpdate({ _id: body._id }, body, {
-      new: true,
-    });
+    const module = new Module(body);
+    await module.save();
+    return module;
   } catch (error) {
-    console.log(`✖ Error updating task:`, error);
+    console.log(`✖ Error creating module:`, error);
   }
 });

@@ -4,12 +4,9 @@ import routeProtection from "~/server/routeProtection";
 export default defineEventHandler(async (event) => {
   await routeProtection(event);
   const body = await readBody(event);
-
   try {
-    return await Task.findOneAndUpdate({ _id: body._id }, body, {
-      new: true,
-    });
+    return await Task.find({ user: body.user });
   } catch (error) {
-    console.log(`✖ Error updating task:`, error);
+    console.log(`✖ Error fetching tasks:`, error);
   }
 });
