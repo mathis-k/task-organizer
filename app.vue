@@ -13,7 +13,7 @@ import { capitalize } from "~/lib/utils";
         <AppSidebar />
         <SidebarInset class="flex flex-col flex-1 h-screen">
           <header
-            class="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
+            class="flex h-16 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12"
           >
             <div class="flex items-center gap-2 px-4">
               <SidebarTrigger class="-ml-1" />
@@ -64,6 +64,7 @@ import { capitalize } from "~/lib/utils";
                 </BreadcrumbList>
               </Breadcrumb>
             </div>
+            <ModeSwitch />
           </header>
           <div class="flex-1 overflow-auto p-4">
             <NuxtPage class="max-w-full max-h-full overflow-auto" />
