@@ -232,7 +232,7 @@ async function handleSave() {
       <DialogFooter>
         <Button :disabled="isDisabled" type="submit" @click="handleSave">
           <Loader2 v-if="isSubmitting" class="w-4 h-4 mr-2 animate-spin" />
-          <span v-else>Save</span>
+          <span v-else>Create</span>
         </Button>
       </DialogFooter>
     </DialogContent>
