@@ -38,31 +38,50 @@ const filter = ((task: TaskDocument) => {
   return true;
 }) as (task: TaskDocument) => boolean;
 
-const filteredTasks = computed(() => {
+const backlogTasks = computed(() => {
   return tasks.get
-    .filter((task) => filter(task))
+    .filter((task) => task.status === "backlog" && filter(task))
     .sort((a, b) => {
-      if (a.dueDate && b.dueDate) {
-        return new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime();
-      }
-      return 0;
+      const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+      const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+      return dateA - dateB;
     });
 });
-
-const backlogTasks = computed(() => {
-  return filteredTasks.value.filter((task) => task.status === "backlog");
-});
 const plannedTasks = computed(() => {
-  return filteredTasks.value.filter((task) => task.status === "planned");
+  return tasks.get
+    .filter((task) => task.status === "planned" && filter(task))
+    .sort((a, b) => {
+      const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+      const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+      return dateA - dateB;
+    });
 });
 const activeTasks = computed(() => {
-  return filteredTasks.value.filter((task) => task.status === "active");
+  return tasks.get
+    .filter((task) => task.status === "active" && filter(task))
+    .sort((a, b) => {
+      const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+      const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+      return dateA - dateB;
+    });
 });
 const thisWeekTasks = computed(() => {
-  return filteredTasks.value.filter((task) => task.status === "this week");
+  return tasks.get
+    .filter((task) => task.status === "this week" && filter(task))
+    .sort((a, b) => {
+      const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+      const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+      return dateA - dateB;
+    });
 });
 const doneTasks = computed(() => {
-  return filteredTasks.value.filter((task) => task.status === "done");
+  return tasks.get
+    .filter((task) => task.status === "done" && filter(task))
+    .sort((a, b) => {
+      const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
+      const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
+      return dateA - dateB;
+    });
 });
 </script>
 
@@ -156,8 +175,8 @@ const doneTasks = computed(() => {
         </span>
       </div>
       <TaskCard
-        v-for="(task, index) in backlogTasks"
-        :key="index"
+        v-for="task in backlogTasks"
+        :key="task._id.toString()"
         :task="task"
       />
     </div>
@@ -169,8 +188,8 @@ const doneTasks = computed(() => {
         </span>
       </div>
       <TaskCard
-        v-for="(task, index) in plannedTasks"
-        :key="index"
+        v-for="task in plannedTasks"
+        :key="task._id.toString()"
         :task="task"
       />
     </div>
@@ -182,8 +201,8 @@ const doneTasks = computed(() => {
         </span>
       </div>
       <TaskCard
-        v-for="(task, index) in activeTasks"
-        :key="index"
+        v-for="task in activeTasks"
+        :key="task._id.toString()"
         :task="task"
       />
     </div>
@@ -195,8 +214,8 @@ const doneTasks = computed(() => {
         </span>
       </div>
       <TaskCard
-        v-for="(task, index) in thisWeekTasks"
-        :key="index"
+        v-for="task in thisWeekTasks"
+        :key="task._id.toString()"
         :task="task"
       />
     </div>
@@ -207,7 +226,11 @@ const doneTasks = computed(() => {
           {{ doneTasks.length }}
         </span>
       </div>
-      <TaskCard v-for="(task, index) in doneTasks" :key="index" :task="task" />
+      <TaskCard
+        v-for="task in doneTasks"
+        :key="task._id.toString()"
+        :task="task"
+      />
     </div>
   </div>
 </template>
