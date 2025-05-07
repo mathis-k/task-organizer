@@ -75,8 +75,17 @@ const thisWeekTasks = computed(() => {
     });
 });
 const doneTasks = computed(() => {
+  //also only show done tasks for two weeks meaning resolution date is at most two weeks old
+  const twoWeeksAgo = new Date();
+  twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
   return tasks.get
-    .filter((task) => task.status === "done" && filter(task))
+    .filter(
+      (task) =>
+        task.status === "done" &&
+        filter(task) &&
+        task.resolutionDate &&
+        new Date(task.resolutionDate) >= twoWeeksAgo,
+    )
     .sort((a, b) => {
       const dateA = a.dueDate ? new Date(a.dueDate).getTime() : Infinity;
       const dateB = b.dueDate ? new Date(b.dueDate).getTime() : Infinity;
@@ -195,19 +204,6 @@ const doneTasks = computed(() => {
     </div>
     <div class="relative rounded-lg bg-card p-4 space-y-2">
       <div class="flex items-center justify-between">
-        <h3 class="text-base font-medium leading-tight">Active</h3>
-        <span class="text-xs text-muted-foreground">
-          {{ activeTasks.length }}
-        </span>
-      </div>
-      <TaskCard
-        v-for="task in activeTasks"
-        :key="task._id.toString()"
-        :task="task"
-      />
-    </div>
-    <div class="relative rounded-lg bg-card p-4 space-y-2">
-      <div class="flex items-center justify-between">
         <h3 class="text-base font-medium leading-tight">This week</h3>
         <span class="text-xs text-muted-foreground">
           {{ thisWeekTasks.length }}
@@ -215,6 +211,19 @@ const doneTasks = computed(() => {
       </div>
       <TaskCard
         v-for="task in thisWeekTasks"
+        :key="task._id.toString()"
+        :task="task"
+      />
+    </div>
+    <div class="relative rounded-lg bg-card p-4 space-y-2">
+      <div class="flex items-center justify-between">
+        <h3 class="text-base font-medium leading-tight">Active</h3>
+        <span class="text-xs text-muted-foreground">
+          {{ activeTasks.length }}
+        </span>
+      </div>
+      <TaskCard
+        v-for="task in activeTasks"
         :key="task._id.toString()"
         :task="task"
       />

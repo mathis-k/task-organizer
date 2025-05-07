@@ -7,8 +7,8 @@ export const TASK_TYPES = [
 export const TASK_STATUSES = [
   "backlog",
   "planned",
-  "active",
   "this week",
+  "active",
   "done",
 ] as const;
 export const TASK_PRIORITIES = ["low", "medium", "high"] as const;

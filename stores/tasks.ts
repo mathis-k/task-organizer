@@ -124,7 +124,11 @@ export const useTasks = defineStore("tasks", () => {
         stats.openLearningObjective++;
       }
 
-      if (task.dueDate && new Date(task.dueDate) < new Date()) {
+      if (
+        task.dueDate &&
+        new Date(task.dueDate) < new Date() &&
+        !task.resolution
+      ) {
         stats.overdue++;
       }
     });

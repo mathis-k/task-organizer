@@ -75,9 +75,9 @@ async function handleSave() {
     }
     props.task.description = description.value;
     props.task.effortEstimate = effortEstimate.value;
-    props.task.dueDate = props.task.dueDate
-      ? new Date(props.task.dueDate)
-      : undefined;
+    props.task.dueDate = dueDate.value
+      ? new Date(dueDate.value)
+      : props.task.dueDate;
     props.task.updatedAt = new Date();
     await tasks.update(props.task);
 
