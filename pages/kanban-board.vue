@@ -75,7 +75,6 @@ const thisWeekTasks = computed(() => {
     });
 });
 const doneTasks = computed(() => {
-  //also only show done tasks for two weeks meaning resolution date is at most two weeks old
   const twoWeeksAgo = new Date();
   twoWeeksAgo.setDate(twoWeeksAgo.getDate() - 14);
   return tasks.get

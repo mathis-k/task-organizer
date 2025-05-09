@@ -15,14 +15,14 @@ import { CalendarSearch } from "lucide-vue-next";
         <h3 class="text-sm text-muted-foreground text-center mb-2">
           Days until first exam
         </h3>
-        <p class="text-3xl font-bold text-center">85</p>
+        <p class="text-3xl font-bold text-center">tbd</p>
       </div>
 
       <div class="border rounded-xl p-4 shadow-sm">
         <h3 class="text-sm text-muted-foreground text-center mb-2">
           Next event
         </h3>
-        <p class="text-center">Math tutorial – Thursday 10:00</p>
+        <p class="text-center">tbd</p>
       </div>
     </CardContent>
   </Card>

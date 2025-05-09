@@ -32,6 +32,7 @@ export const useTasks = defineStore("tasks", () => {
   async function create(task: TaskDocument) {
     task.createdAt = new Date();
     task.updatedAt = new Date();
+    task.dueDate?.setHours(0, 0, 0, 0);
 
     task.user = user._id;
 
@@ -101,35 +102,52 @@ export const useTasks = defineStore("tasks", () => {
       openLearningObjective: 0,
       overdue: 0,
     };
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - ((today.getDay() + 6) % 7));
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    endOfWeek.setHours(23, 59, 59, 999);
+
+    const isInCurrentWeek = (date: Date) => {
+      if (!date) return false;
+      const date_ = new Date(date);
+      date_.setHours(0, 0, 0, 0);
+      return date_ >= startOfWeek && date_ <= endOfWeek;
+    };
+
     tasks.value.forEach((task) => {
       if (task.dueDate) {
         const dueDate = new Date(task.dueDate);
-        const today = new Date();
-        const startOfWeek = new Date();
-        startOfWeek.setDate(today.getDate() - today.getDay());
-        startOfWeek.setHours(0, 0, 0, 0);
-
-        if (dueDate.toDateString() === today.toDateString()) {
+        dueDate.setHours(0, 0, 0, 0);
+        const dueThisWeek = isInCurrentWeek(dueDate);
+        if (dueDate.getTime() === today.getTime()) {
           stats.dueToday++;
-        } else if (dueDate >= startOfWeek && dueDate <= today) {
+        }
+        if (dueThisWeek) {
           stats.dueThisWeek++;
-        } else if (task.status === "done" && dueDate >= startOfWeek) {
+        }
+        if (task.resolutionDate && isInCurrentWeek(task.resolutionDate)) {
           stats.doneThisWeek++;
         }
-      }
-
-      if (task.type === "homework" && task.status !== "done") {
-        stats.openHomework++;
-      } else if (task.type === "learning objective" && task.status !== "done") {
-        stats.openLearningObjective++;
-      }
-
-      if (
-        task.dueDate &&
-        new Date(task.dueDate) < new Date() &&
-        !task.resolution
-      ) {
-        stats.overdue++;
+        if (task.type === "homework" && !task.resolution && dueThisWeek) {
+          stats.openHomework++;
+        }
+        if (
+          task.type === "learning objective" &&
+          !task.resolution &&
+          dueThisWeek
+        ) {
+          stats.openLearningObjective++;
+        }
+        if (dueDate < today && !task.resolution) {
+          stats.overdue++;
+        }
       }
     });
     return stats;

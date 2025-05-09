@@ -13,6 +13,15 @@ const props = defineProps<{
   task: TaskDocument;
 }>();
 
+const overdue = computed(() => {
+  if (!props.task.resolution && props.task.dueDate) {
+    const today = new Date();
+    const dueDate = new Date(props.task.dueDate);
+    return dueDate < today || dueDate.toDateString() === today.toDateString();
+  }
+  return false;
+});
+
 const modules = useModules();
 const module = modules.get.find((m) => m._id === props.task.module);
 
@@ -48,7 +57,13 @@ const typeColors = {
     <div
       class="text-xs text-muted-foreground flex justify-between items-center"
     >
-      <span v-if="task.dueDate">{{ dateToString(task.dueDate) }}</span>
+      <span
+        v-if="task.dueDate"
+        :class="{
+          'text-destructive': overdue,
+        }"
+        >{{ dateToString(task.dueDate) }}</span
+      >
       <Award class="h-3 w-3" />
     </div>
 

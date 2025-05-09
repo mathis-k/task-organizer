@@ -24,10 +24,7 @@ const stats = tasks.stats;
       </div>
       <div>
         <div>
-          <h2
-            class="text-lg font-bold text-center"
-            :class="{ 'text-green-400': stats.doneThisWeek > 0 }"
-          >
+          <h2 class="text-lg font-bold text-center">
             {{ stats.dueThisWeek }}
           </h2>
         </div>
@@ -35,7 +32,10 @@ const stats = tasks.stats;
       </div>
       <div>
         <div>
-          <h2 class="text-lg font-bold text-center">
+          <h2
+            class="text-lg font-bold text-center"
+            :class="{ 'text-green-400': stats.doneThisWeek > 0 }"
+          >
             {{ stats.doneThisWeek }}
           </h2>
         </div>
@@ -63,7 +63,7 @@ const stats = tasks.stats;
         <div>
           <h2
             class="text-lg font-bold text-center"
-            :class="{ 'text-red-400': stats.overdue > 0 }"
+            :class="{ 'text-destructive': stats.overdue > 0 }"
           >
             {{ stats.overdue }}
           </h2>
