@@ -1,9 +1,34 @@
 <script setup lang="ts">
 import AppSidebar from "~/components/AppSidebar.vue";
+import { capitalize } from "~/lib/utils";
 const { data } = useAuth();
 const route = useRoute();
 
-import { capitalize } from "~/lib/utils";
+const currentTime = ref("");
+
+function updateTime() {
+  const now = new Date();
+  currentTime.value = now.toLocaleString("de-DE", {
+    weekday: "short",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  });
+}
+
+let interval: ReturnType<typeof setInterval>;
+
+onMounted(() => {
+  updateTime();
+  interval = setInterval(updateTime, 1000);
+});
+
+onUnmounted(() => {
+  clearInterval(interval);
+});
 </script>
 
 <template>
@@ -63,6 +88,11 @@ import { capitalize } from "~/lib/utils";
                   </template>
                 </BreadcrumbList>
               </Breadcrumb>
+            </div>
+            <div
+              class="absolute left-1/2 transform -translate-x-1/2 text-sm font-medium text-muted-foreground whitespace-nowrap"
+            >
+              {{ currentTime }}
             </div>
             <ModeSwitch class="mr-4" />
           </header>
