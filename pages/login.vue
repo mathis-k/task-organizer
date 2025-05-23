@@ -72,12 +72,12 @@ async function handleLogin() {
           <span v-else>Login</span>
         </Button>
       </form>
-      <!--      <div class="mt-4 text-center text-sm">
+      <div class="mt-4 text-center text-sm">
         Don't have an account?
         <NuxtLink to="/register" :disabled="isLoading" class="underline">
           Register
         </NuxtLink>
-      </div>-->
+      </div>
     </div>
   </div>
 </template>
