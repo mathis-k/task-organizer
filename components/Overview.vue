@@ -63,7 +63,7 @@ const stats = tasks.stats;
         <div>
           <h2
             class="text-lg font-bold text-center"
-            :class="{ 'text-destructive': stats.overdue > 0 }"
+            :class="{ 'text-destructive': Number(stats.overdue || 0) > 0 }"
           >
             {{ stats.overdue }}
           </h2>
